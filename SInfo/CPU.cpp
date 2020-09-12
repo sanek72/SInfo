@@ -144,6 +144,7 @@ int CPU::getProcessorThreads_Win32() {
 
 }
 
+
 std::string CPU::getArchitecture(){
     if (architecture == "unavailable") {
         return architectureString(0xffff);
