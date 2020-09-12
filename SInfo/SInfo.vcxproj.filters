@@ -15,61 +15,63 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Desktop\SInfo\sourse\CPU.cpp">
+    <ClCompile Include="CPU.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Desktop\SInfo\sourse\GPU.cpp">
+    <ClCompile Include="GPU.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Desktop\SInfo\sourse\InitializesCOM.cpp">
+    <ClCompile Include="InitializesCOM.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Desktop\SInfo\sourse\Main.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Desktop\SInfo\sourse\Motherboard.cpp">
+    <ClCompile Include="Motherboard.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Desktop\SInfo\sourse\OS.cpp">
+    <ClCompile Include="OS.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Desktop\SInfo\sourse\RAM.cpp">
+    <ClCompile Include="RAM.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Desktop\SInfo\sourse\SysInfoFactory.cpp">
+    <ClCompile Include="SysInfoFactory.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Desktop\SInfo\sourse\Utils.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Source.cpp">
+    <ClCompile Include="Utils.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Desktop\SInfo\sourse\Utils.h">
+    <ClInclude Include="RAM.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Desktop\SInfo\sourse\SysInfoFactory.h">
+    <ClInclude Include="Utils.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Desktop\SInfo\sourse\RAM.h">
+    <ClInclude Include="SysInfoFactory.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Desktop\SInfo\sourse\OS.h">
+    <ClInclude Include="OS.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Desktop\SInfo\sourse\Motherboard.h">
+    <ClInclude Include="Motherboard.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Desktop\SInfo\sourse\InitializesCOM.h">
+    <ClInclude Include="InitializesCOM.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Desktop\SInfo\sourse\GPU.h">
+    <ClInclude Include="GPU.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Desktop\SInfo\sourse\CPU.h">
+    <ClInclude Include="CPU.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="osversion.manifest">
+      <Filter>Файлы ресурсов</Filter>
+    </Manifest>
   </ItemGroup>
 </Project>
