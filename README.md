@@ -1,3 +1,3 @@
 # SInfo
 
-# Getting information about the system using WMI, winAPI
+Getting information about the system using WMI, winAPI
