@@ -23,21 +23,21 @@ private:
 	template< typename T, std::size_t N >
 	void receiving(std::array<T, N>& v, std::string _class_name);
 
+	void setManufacturer(std::string _manufacturer);
+
+	void setProduct(std::string _product);
+
+	void setSerialNumber(std::string _serialNumber);
+
 public:
 
 	Motherboard ();
 
     std::string getManufacturer();
 
-	void setManufacturer(std::string _manufacturer);
-
 	std::string getProduct();
 
-	void setProduct(std::string _product);
-
 	std::string getSerialNumber();
-
-	void setSerialNumber(std::string _serialNumber);
 
 };
 

@@ -42,7 +42,6 @@ void OS::receiving(std::array<T, N>& v, std::string _class_name) {
 	if (initCOM->Initialize(value)) {
 
 		//work
-        //setlocale(LC_CTYPE, "Russian");
 		for (size_t i = 0; i < properties.size(); ++i) {
 
 			//std::cout << "Class[" + _class_name + "] propertie[" + properties[i] + "] = " + value[i] << std::endl;

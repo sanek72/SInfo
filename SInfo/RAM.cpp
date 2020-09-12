@@ -63,7 +63,7 @@ void RAM::receiving(std::array<T, N>& v, std::string _class_name, bool m){
             MODUL m;
 
             size_t i = 0;
-            //setlocale(LC_CTYPE, "Russian");
+
             do {
                 
                 if (b == len) {

@@ -28,11 +28,19 @@ private:
 
 	std::string socket;
 
-	int processorCores;
+	int processorCores = 0;
 
-	int processorThreads;
+	int processorThreads = 0;
 
+	void setArchitecturer(std::string _architecture);
 
+	void setProcessorName(std::string _processorName);
+
+	void setProcessorCores(std::string _processorCores);
+
+	void setProcessorThreads(std::string _processorThreads);
+
+	void setSocket(std::string _socket);
 
 public:
 
@@ -46,23 +54,13 @@ public:
 
 	std::string getArchitecture();
 
-	void setArchitecturer(std::string _architecture);
-
 	std::string getProcessorName();
-
-	void setProcessorName(std::string _processorName);
 
 	int getProcessorCores();
 
-	void setProcessorCores(std::string _processorCores);
-
 	int getProcessorThreads();
 
-	void setProcessorThreads(std::string _processorThreads);
-
 	std::string getSocket();
-
-	void setSocket(std::string _socket);
 
 	std::string architectureString(int a);
 

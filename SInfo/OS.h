@@ -39,6 +39,20 @@ private:
 	template< typename T, std::size_t N >
 	void receiving(std::array<T, N>& v, std::string _class_name);
 
+	void setOSName(std::string _OSName);
+
+	void setComputerName(std::string _сomputerName);
+
+	void setBuildNumber(std::string _buildNumber);
+
+	void setOSArchitecture(std::string _OSArchitecture);
+
+	//void setFreePhysicalMemory(std::string _freePhysicalMemory);
+
+	void setLocalDateTime(std::string _localDateTime);
+
+	void setRegisteredUser(std::string _registeredUser);
+
 public:
 
 	OS();
@@ -49,31 +63,17 @@ public:
 
 	std::string getOSName();
 
-	void setOSName(std::string _OSName);
-
 	std::string getComputerName();
-
-	void setComputerName(std::string _сomputerName);
 
 	std::string getBuildNumber();
 
-	void setBuildNumber(std::string _buildNumber);
-
 	//int getFreePhysicalMemory();
-
-	//void setFreePhysicalMemory(std::string _freePhysicalMemory);
 
 	std::string getOSArchitecture();
 
-	void setOSArchitecture(std::string _OSArchitecture);
-
 	std::string getLocalDateTime();
 
-	void setLocalDateTime(std::string _localDateTime);
-
 	std::string getRegisteredUser();
-
-	void setRegisteredUser(std::string _registeredUser);
 
 	std::string getUserNameEx();
 

@@ -9,21 +9,21 @@ SysInfoFactory info;
 Utils util;
 
 int main(){
-    //
+
     setlocale(LC_CTYPE, "Russian");
 
     cout << "  Hello " + info.getOSInformation().getUserName() << endl;
-    ////cout << "\n" << endl;
 
     cout << "____________________________________________________\n" << endl;
-    cout <<  "  Date : " + util.getCIM_DATETIME(info.getOSInformation().getLocalDateTime()) + "\n" +
+    cout <</*  "  Date : " + util.getCIM_DATETIME(info.getOSInformation().getLocalDateTime()) + "\n" +*/
         "  Computer Name: " + info.getOSInformation().getComputerName() + "\n" +
         "  OS: " + info.getOSInformation().getOSName() + " " + info.getOSInformation().getOSArchitecture() + "\n" +
         "  BuildNumber: " + info.getOSInformation().getBuildNumber() + "\n" +
         "  RegisteredUser: " + info.getOSInformation().getRegisteredUser()  << endl;
 
     cout << "____________________________________________________\n" << endl;
-    cout << "  Processor: " + info.getCPUInformation().getProcessorName() << endl;
+    cout << "  Processor: "  << endl;
+    cout << "  " + info.getCPUInformation().getProcessorName() << endl;
     cout << "   (Core: " + std::to_string(info.getCPUInformation().getProcessorCores()) +
         ", Threads: " + std::to_string(info.getCPUInformation().getProcessorThreads()) + ")" << endl;
     cout << "  Architecture: " + info.getCPUInformation().getArchitecture() << endl;
@@ -31,9 +31,17 @@ int main(){
 
     cout << "____________________________________________________\n" << endl;
 
-    cout << "  Video card: " + info.getGPUInformation().getGPUName_Win32() << endl;
-
+    cout << "  Video card: " << endl;
+    cout << "  " + info.getGPUInformation().getAdapterCompatibility() << endl;
+    cout << "  " + info.getGPUInformation().getVideoCardName() << endl;
+    cout << "  Draiver vesion: " + info.getGPUInformation().getDriverVersion() + " Date: " + util.getCIM_DATETIME(info.getGPUInformation().getDriverDate()) << endl;
+    //for (std::string s : info.getGPUInformation().getInstalledDisplayDrivers()) {
+    //    cout << "  " + s << endl;
+    //}
+    cout << "  Memory size " + std::to_string(info.getGPUInformation().getRamSize() / 1024 / 1024) + "mb" << endl; // max 4095mb,  AdapterRAM type = uint32, =)
+    cout << "  VideoProcessor: " + info.getGPUInformation().getVideoProcessor() << endl;
     cout << "____________________________________________________\n" << endl;
+
     cout << "  Motherboard:" << endl;
     cout << "  " + info.getMotherboardInformation().getManufacturer() + "\n" +
         "  " + info.getMotherboardInformation().getProduct() + "\n" +
@@ -50,9 +58,6 @@ int main(){
     }
     cout << "  Memory RAM size: " + info.getRAMInformation().getMemoryRAMsize_Win32() + "gb" << endl;
     cout << "____________________________________________________\n\n" << endl;
-
-    ////cout << "\n" << endl;
-
 
     system("pause"); 
     return 0;

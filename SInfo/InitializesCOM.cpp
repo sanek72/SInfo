@@ -114,7 +114,7 @@ InitializesCOM::InitializesCOM(std::string _objectPath, std::string _wql, std::v
 
                 int vType = v.vt;
 
-                //std::cout << c.wql + "p ropertie[" + c.properties[i] + "] = " + " The VARTYPE " + std::to_string(vType)  << std::endl;
+               // std::cout << c.wql + "p ropertie[" + c.properties[i] + "] = " + " The VARTYPE " + std::to_string(vType)  << std::endl;
 
                 switch (vType) {
 
@@ -149,8 +149,7 @@ InitializesCOM::InitializesCOM(std::string _objectPath, std::string _wql, std::v
                     break;
 
                 case VBLONG_TYPE:
-
-                    _value.push_back(std::to_string(v.lVal));
+                    _value.push_back(std::to_string(v.llVal));
                     VariantClear(&v);
                     break;
 
@@ -199,6 +198,7 @@ std::string InitializesCOM::getArrayValues_(HRESULT hr, SAFEARRAY* parray) {
 
             BSTR v = temp[i];
             s +=  _com_util::ConvertBSTRToString(v);
+            s += "|";
 
         }
 
