@@ -114,7 +114,7 @@ void RAM::receiving(std::array<T, N>& v, std::string _class_name, bool m){
             } while (i <= value.size());
 
         } else {
-            //setlocale(LC_CTYPE, "Russian");
+
             for (size_t i = 0; i < value.size(); ++i) {
                 
                 //std::cout << "Clas[" + _class_name + "] propertie[" + properties[i] + "] = " + value[i]<< std::endl;

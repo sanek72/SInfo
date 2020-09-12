@@ -49,7 +49,7 @@ void GPU::receiving(std::array<T, N>& v, std::string _class_name) {
 		//work
 		for (size_t i = 0; i < properties.size(); ++i) {
 
-		    std::cout << "Class[" + _class_name + "] propertie[" + properties[i] + "] = " + value[i] << std::endl;
+		    //std::cout << "Class[" + _class_name + "] propertie[" + properties[i] + "] = " + value[i] << std::endl;
 
 			if (properties[i] == "Name") {
 
