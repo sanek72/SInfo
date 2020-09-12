@@ -3,7 +3,7 @@
 //https://docs.microsoft.com/en-us/windows/win32/wmisdk/cim-datetime
 std::string Utils::getCIM_DATETIME(std::string value) {
 
-	if (value.size() == 0) {
+	if (value.size() != 25) {
 		return "NULL";
 	}
 	//int a;

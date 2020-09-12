@@ -7,6 +7,7 @@
 #include <string>
 #include <comutil.h>
 #include <vector>
+#include <typeinfo>
 
 #pragma comment( lib, "Wbemuuid.lib" )
 
@@ -16,8 +17,7 @@ class InitializesCOM{
 private:
 
 	static const  int VBSTRING_TYPE = 8;
-	//static const  int VBARRAY_TYPE = 8192;
-	static const  int VBARRAY_TYPE = 8200;
+	static const  int VBARRAY_TYPE = 8192;
 	static const  int VBBOOLEAN_TYPE = 11;
 	static const  int VBINTEGER_TYPE = 2;
 	static const  int VBBYTE_TYPE = 17;
@@ -32,9 +32,7 @@ private:
 
 	connect c;
 
-	std::string getArrayValues_(HRESULT hr, SAFEARRAY* parray);
-
-	
+	std::string getArrayValues_(HRESULT hr, SAFEARRAY* parray, int vType);	
 
 public:
 

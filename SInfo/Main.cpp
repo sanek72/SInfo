@@ -57,6 +57,14 @@ int main(){
             "  " + std::to_string(info.getRAMInformation().getModulesRAM()[i].speed) + "MHz" << endl;
     }
     cout << "  Memory RAM size: " + info.getRAMInformation().getMemoryRAMsize_Win32() + "gb" << endl;
+    cout << "____________________________________________________\n" << endl;
+
+    cout << "  BIOS:" << endl;
+    cout << "  " + info.getBIOSInformation().getManufacturer() + "\n" +
+        "  " + info.getBIOSInformation().getName() + "\n" +
+        "  " + info.getBIOSInformation().getVersion() + "\n" +
+        "  Serial Number - " + info.getBIOSInformation().getSerialNumber() << endl;
+
     cout << "____________________________________________________\n\n" << endl;
 
     system("pause"); 

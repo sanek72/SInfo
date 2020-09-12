@@ -102,19 +102,19 @@ InitializesCOM::InitializesCOM(std::string _objectPath, std::string _wql, std::v
 
             if (FAILED(hresult)) {
                 
-                _value.push_back(" unavailable");
+                _value.push_back("unavailable");
                 VariantClear(&v);
              
             }else if (v.bstrVal == NULL) {
 
-                _value.push_back(" unavailable");
+                _value.push_back("unavailable");
                 VariantClear(&v);
 
             } else {
 
                 int vType = v.vt;
 
-               // std::cout << c.wql + "p ropertie[" + c.properties[i] + "] = " + " The VARTYPE " + std::to_string(vType)  << std::endl;
+ //               std::cout << c.wql + "p ropertie[" + c.properties[i] + "] = " + " The VARTYPE " + std::to_string(vType)  << std::endl;
 
                 switch (vType) {
 
@@ -124,9 +124,15 @@ InitializesCOM::InitializesCOM(std::string _objectPath, std::string _wql, std::v
                     VariantClear(&v);
                     break;
 
-                case VBARRAY_TYPE:
+                case VBARRAY_TYPE + VBSTRING_TYPE:
 
-                    _value.push_back(getArrayValues_(hresult, v.parray));
+                    _value.push_back(getArrayValues_(hresult, v.parray, VBSTRING_TYPE));
+                    VariantClear(&v);
+                    break;
+
+                case VBARRAY_TYPE + VBLONG_TYPE:
+
+                    _value.push_back(getArrayValues_(hresult, v.parray, VBLONG_TYPE));
                     VariantClear(&v);
                     break;
 
@@ -155,12 +161,13 @@ InitializesCOM::InitializesCOM(std::string _objectPath, std::string _wql, std::v
 
                 case VTNULL_TYPE:
 
-                    _value.push_back(" unavailable");
+                    _value.push_back("unavailable");
                     VariantClear(&v);
                     break;
 
                 default:
-                    std::cout << "The VARTYPE " + std::to_string(vType) + " is unknown." << std::endl;
+                    std::cout << typeid(InitializesCOM).name() << "p ropertie[" + c.properties[i] + "] = " "The VARTYPE " + std::to_string(vType) + " is unknown." << std::endl;
+                    _value.push_back("unavailable");
                     VariantClear(&v);
                     break;
                 }
@@ -180,7 +187,7 @@ InitializesCOM::InitializesCOM(std::string _objectPath, std::string _wql, std::v
 
 }
 
-std::string InitializesCOM::getArrayValues_(HRESULT hr, SAFEARRAY* parray) {
+std::string InitializesCOM::getArrayValues_(HRESULT hr, SAFEARRAY* parray, int vType) {
 
     std::string s;
     BSTR* temp;
@@ -197,13 +204,25 @@ std::string InitializesCOM::getArrayValues_(HRESULT hr, SAFEARRAY* parray) {
         for (int i = 0; i < cnt_elements; ++i){  
 
             BSTR v = temp[i];
-            s +=  _com_util::ConvertBSTRToString(v);
-            s += "|";
+
+            if (vType == VBSTRING_TYPE) {
+               
+                    s +=  _com_util::ConvertBSTRToString(v);
+                    s += "|";
+
+            }
+            else if (vType == VBLONG_TYPE) {
+
+                    s += std::to_string((LONG_PTR)v);
+                    s += "|";
+
+            }
+
 
         }
 
         SafeArrayUnaccessData(parray);
-        //SafeArrayDestroy(v.parray);
+ //       SafeArrayDestroy(parray);
     } else {
 
         s = " unavailable";
@@ -211,7 +230,5 @@ std::string InitializesCOM::getArrayValues_(HRESULT hr, SAFEARRAY* parray) {
     }
     return s;
 }
-
-
 
 

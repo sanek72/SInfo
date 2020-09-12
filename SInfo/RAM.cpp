@@ -91,13 +91,21 @@ void RAM::receiving(std::array<T, N>& v, std::string _class_name, bool m){
                 }
 
                 if (properties[b] == "Capacity") {
-                    m.ramSize = std::stoll(value[i]);
 
+                    if (value[i] != "unavailable") {
+
+                        m.ramSize = std::stoll(value[i]);
+
+                    }
+                    
                 }
 
                 if (properties[b] == "Speed") {
 
-                    m.speed = std::stoi(value[i]);
+                    if (value[i] != "unavailable") {
+
+                        m.speed = std::stoi(value[i]);
+                    }
 
                 }
 

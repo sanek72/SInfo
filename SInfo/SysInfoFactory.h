@@ -9,6 +9,7 @@
 #include "CPU.h"
 #include "GPU.h"
 #include "RAM.h"
+#include "BIOS.h"
 
 
 
@@ -21,6 +22,7 @@ private:
 	CPU cpu;
 	GPU gpu;
 	RAM ram;
+	BIOS bios;
 
 public:
 
@@ -33,6 +35,8 @@ public:
 	Motherboard getMotherboardInformation();
 
 	RAM getRAMInformation();
+
+	BIOS getBIOSInformation();
 
 };
 

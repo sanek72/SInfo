@@ -145,6 +145,9 @@ int CPU::getProcessorThreads_Win32() {
 }
 
 std::string CPU::getArchitecture(){
+    if (architecture == "unavailable") {
+        return architectureString(0xffff);
+    }
     return architectureString(std::stoi(architecture));
 }
 
@@ -165,6 +168,9 @@ int CPU::getProcessorCores(){
 }
 
 void CPU::setProcessorCores(std::string _processorCores){
+    if (_processorCores == "unavailable") {
+        return;
+    }
     processorCores = std::stoi(_processorCores);
 }
 
@@ -173,6 +179,9 @@ int CPU::getProcessorThreads(){
 }
 
 void CPU::setProcessorThreads(std::string _processorThreads){
+    if (_processorThreads == "unavailable") {
+        return;
+    }
     processorThreads = std::stoi(_processorThreads);
 }
 

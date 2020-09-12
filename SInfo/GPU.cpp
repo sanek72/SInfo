@@ -42,10 +42,14 @@ void GPU::receiving(std::array<T, N>& v, std::string _class_name) {
 
 	if (initCOM->Initialize(value)) {
 
+		size_t all = value.size();
+
+		std::cout << "Class[ " + std::to_string(all) << std::endl;
+
 		//work
 		for (size_t i = 0; i < properties.size(); ++i) {
 
-			//std::cout << "Class[" + _class_name + "] propertie[" + properties[i] + "] = " + value[i] << std::endl;
+		    std::cout << "Class[" + _class_name + "] propertie[" + properties[i] + "] = " + value[i] << std::endl;
 
 			if (properties[i] == "Name") {
 
@@ -155,6 +159,7 @@ void GPU::setVideoProcessor(std::string _videoProcessor){
 }
 
 void GPU::setInstalledDisplayDrivers(std::string _displayDrivers){
+	return;
 	if (_displayDrivers.size() == 0 || _displayDrivers == "unavailable") {
 		return;
 	}
@@ -168,5 +173,8 @@ void GPU::setInstalledDisplayDrivers(std::string _displayDrivers){
 }
 
 void GPU::setRamSize(std::string _ramSize){
+	if (_ramSize == "unavailable") {
+		return;
+	}
 	ramSize = std::stoll(_ramSize);
 }

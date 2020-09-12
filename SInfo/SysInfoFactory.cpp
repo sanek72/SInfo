@@ -20,3 +20,7 @@ Motherboard SysInfoFactory::getMotherboardInformation(){
 RAM SysInfoFactory::getRAMInformation(){
 	return ram;
 }
+
+BIOS SysInfoFactory::getBIOSInformation(){
+	return bios;
+}
