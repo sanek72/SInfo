@@ -19,33 +19,44 @@ private:
 	template< typename T, std::size_t N >
 	void receiving(std::array<T, N>& v, std::string _class_name);
 
-	std::string videoCardName;
+	//void setVideoCardName(std::string _videoCardName);
 
-	std::string driverVersion;
+	//void setDriverVersion(std::string _driverVersion);
 
-	std::string driverDate;
+	//void setDriverDate(std::string _driverDate);
 
-	std::string adapterCompatibility;
+	//void setAdapterCompatibility(std::string _adapterCompatibility);
 
-	std::string videoProcessor;
+	//void setVideoProcessor(std::string _videoProcessor);
 
-	std::vector< std::string > installedDisplayDrivers;
+	//void setInstalledDisplayDrivers(std::string _displayDrivers);
 
-	void setVideoCardName(std::string _videoCardName);
+	//long long ramSize = 0;
 
-	void setDriverVersion(std::string _driverVersion);
+	//void setRamSize(std::string _ramSize);
 
-	void setDriverDate(std::string _driverDate);
+	int adapter_count = 0;
 
-	void setAdapterCompatibility(std::string _adapterCompatibility);
+	void setAdapterCount();
 
-	void setVideoProcessor(std::string _videoProcessor);
+	struct ADAPTER {
 
-	void setInstalledDisplayDrivers(std::string _displayDrivers);
+		std::string videoCardName;
 
-	long long ramSize = 0;
+		std::string driverVersion;
 
-	void setRamSize(std::string _ramSize);
+		std::string driverDate;
+
+		std::string adapterCompatibility;
+
+		std::string videoProcessor;
+
+		std::vector< std::string > installedDisplayDrivers;
+
+		long long ramSize = 0;
+	};
+
+	std::vector< ADAPTER > a_buf;
 
 public:
 
@@ -53,18 +64,22 @@ public:
 
 	std::string getGPUName_Win32();
 
-	std::string getVideoCardName();
+	//std::string getVideoCardName();
 
-	std::string getDriverVersion();
+	//std::string getDriverVersion();
 
-	std::string getDriverDate();
+	//std::string getDriverDate();
 
-	std::string getAdapterCompatibility();
+	//std::string getAdapterCompatibility();
 
-	std::string getVideoProcessor();
+	//std::string getVideoProcessor();
 
-	std::vector< std::string > getInstalledDisplayDrivers();
+	//std::vector< std::string > getInstalledDisplayDrivers();
 
-	long long getRamSize();
+	//long long getRamSize();
+
+	int getAdapterCount();
+
+	std::vector< ADAPTER > getADAPTERS();
 	
 };

@@ -215,7 +215,7 @@ std::string InitializesCOM::getArrayValues_(HRESULT hr, SAFEARRAY* parray, int v
             }
             else if (vType == VBLONG_TYPE) {
 
-                    s += std::to_string((UINT)v);
+                    s += std::to_string((UINT)v);// TODO: 
                     s += "|";               
 
             }

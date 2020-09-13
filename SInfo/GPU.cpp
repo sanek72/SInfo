@@ -31,55 +31,176 @@ void GPU::receiving(std::array<T, N>& v, std::string _class_name) {
 
 	if (InitializesCOM(ObjectPath, WQL + _class_name, properties).Initialize(value)) {
 
+		//work
+
 		size_t all = value.size();
 
-		//work
-		for (size_t i = 0; i < properties.size(); ++i) {
-
-		    //std::cout << "Class[" + _class_name + "] propertie[" + properties[i] + "] = " + value[i] << std::endl;
-
-			if (properties[i] == "Name") {
-
-				setVideoCardName(value[i]);
-
-			}
-
-			if (properties[i] == "InstalledDisplayDrivers") {
-
-				setInstalledDisplayDrivers(value[i]);
-
-			}
-
-			if (properties[i] == "DriverDate") {
-
-				setDriverDate(value[i]);
-
-			}
-
-			if (properties[i] == "DriverVersion") {
-
-				setDriverVersion(value[i]);
-
-			}
-
-			if (properties[i] == "AdapterCompatibility") {
-
-				setAdapterCompatibility(value[i]);
-
-			}
-
-			if (properties[i] == "VideoProcessor") {
-
-				setVideoProcessor(value[i]);
-
-			}
-
-			if (properties[i] == "AdapterRAM") {
-
-				setRamSize(value[i]);
-
-			}
+		for (size_t i = 0; i < all; i = i + len) {
+			setAdapterCount();
 		}
+
+		if (getAdapterCount() != 1) {
+
+			int c = 0, b = 0;
+
+			ADAPTER a;
+
+			size_t i = 0;
+
+			do {
+
+				if (b == len) {
+					a_buf.push_back(a);
+					b = 0;
+					c++;
+				}
+
+				if (i >= value.size()) {
+					break;
+				}
+
+				//std::cout << "Class[" + _class_name + "] propertie[" + properties[b] + "] modul(" + std::to_string(a) + ") =" + value[i] << std::endl;
+
+				if (properties[i] == "Name") {
+
+					//setVideoCardName(value[i]);
+					a.videoCardName = value[i];
+
+				}
+
+				if (properties[i] == "InstalledDisplayDrivers") {
+
+					//setInstalledDisplayDrivers(value[i]);
+					if (value[i].size() != 0 || value[i] != "unavailable") {
+
+						std::istringstream ss(value[i]);
+						std::string token;
+
+						while (std::getline(ss, token, ',')) {
+							a.installedDisplayDrivers.push_back(token);
+						}
+
+					}
+
+				}
+
+				if (properties[i] == "DriverDate") {
+
+					//setDriverDate(value[i]);
+					a.driverDate = value[i];
+
+				}
+
+				if (properties[i] == "DriverVersion") {
+
+					//setDriverVersion(value[i]);
+					a.driverVersion = value[i];
+
+				}
+
+				if (properties[i] == "AdapterCompatibility") {
+
+					//setAdapterCompatibility(value[i]);
+					a.adapterCompatibility = value[i];
+
+				}
+
+				if (properties[i] == "VideoProcessor") {
+
+					//setVideoProcessor(value[i]);
+					a.videoProcessor = value[i];
+
+				}
+
+				if (properties[i] == "AdapterRAM") {
+
+					//setRamSize(value[i]);
+					if (value[i] != "unavailable") {
+
+						a.ramSize = std::stoll(value[i]);
+
+					}
+				}
+
+				b++;
+				i++;
+			} while (i <= value.size());
+
+		}else {
+
+			ADAPTER a;
+
+			for (size_t i = 0; i < properties.size(); ++i) {
+
+				//std::cout << "Class[" + _class_name + "] propertie[" + properties[i] + "] = " + value[i] << std::endl;
+
+				if (properties[i] == "Name") {
+
+					//setVideoCardName(value[i]);
+					a.videoCardName = value[i];
+
+				}
+
+				if (properties[i] == "InstalledDisplayDrivers") {
+
+					//setInstalledDisplayDrivers(value[i]);
+					if (value[i].size() != 0 || value[i] != "unavailable") {
+
+					std::istringstream ss(value[i]);
+					std::string token;
+
+					while (std::getline(ss, token, ',')) {
+						a.installedDisplayDrivers.push_back(token);
+					}
+			
+					}
+
+				}
+
+				if (properties[i] == "DriverDate") {
+
+					//setDriverDate(value[i]);
+					a.driverDate = value[i];
+
+				}
+
+				if (properties[i] == "DriverVersion") {
+
+					//setDriverVersion(value[i]);
+					a.driverVersion = value[i];
+
+				}
+
+				if (properties[i] == "AdapterCompatibility") {
+
+					//setAdapterCompatibility(value[i]);
+					a.adapterCompatibility = value[i];
+
+				}
+
+				if (properties[i] == "VideoProcessor") {
+
+					//setVideoProcessor(value[i]);
+					a.videoProcessor = value[i];
+
+				}
+
+				if (properties[i] == "AdapterRAM") {
+
+					//setRamSize(value[i]);
+					if (value[i] != "unavailable") {
+
+						a.ramSize = std::stoll(value[i]);
+
+					}
+				}
+			}
+
+			a_buf.push_back(a);
+
+		}
+
+
 
 	} else {
 		//erore
@@ -95,71 +216,83 @@ std::string GPU::getGPUName_Win32() {
     return std::string(dd.DeviceString);
 }
 
-std::string GPU::getVideoCardName(){
-	return videoCardName;
+//std::string GPU::getVideoCardName(){
+//	return videoCardName;
+//}
+//
+//std::string GPU::getDriverVersion(){
+//	return driverVersion;
+//}
+//
+//std::string GPU::getDriverDate(){
+//	return driverDate;
+//}
+//
+//std::string GPU::getAdapterCompatibility() {
+//	return adapterCompatibility;
+//}
+//
+//std::string GPU::getVideoProcessor(){
+//	return videoProcessor;
+//}
+//
+//std::vector<std::string> GPU::getInstalledDisplayDrivers(){
+//	return installedDisplayDrivers;
+//}
+//
+//long long GPU::getRamSize(){
+//	return ramSize;
+//}
+
+int GPU::getAdapterCount(){
+	return adapter_count;
 }
 
-std::string GPU::getDriverVersion(){
-	return driverVersion;
+//void GPU::setVideoCardName(std::string _videoCardName){
+//	videoCardName = _videoCardName;
+//}
+//
+//void GPU::setDriverVersion(std::string _driverVersion){
+//	driverVersion = _driverVersion;
+//}
+//
+//void GPU::setDriverDate(std::string _driverDate){
+//	driverDate = _driverDate;
+//}
+//
+//void GPU::setAdapterCompatibility(std::string _adapterCompatibility){
+//	adapterCompatibility = _adapterCompatibility;
+//}
+//
+//void GPU::setVideoProcessor(std::string _videoProcessor){
+//	videoProcessor = _videoProcessor;
+//}
+//
+//void GPU::setInstalledDisplayDrivers(std::string _displayDrivers){
+//
+//	if (_displayDrivers.size() == 0 || _displayDrivers == "unavailable") {
+//		return;
+//	}
+//
+//	std::istringstream ss(_displayDrivers);
+//	std::string token;
+//
+//	while (std::getline(ss, token, ',')) {
+//		installedDisplayDrivers.push_back(token);
+//	}
+//}
+//
+//void GPU::setRamSize(std::string _ramSize){
+//	if (_ramSize == "unavailable") {
+//		return;
+//	}
+//	ramSize = std::stoll(_ramSize);
+//}
+
+void GPU::setAdapterCount(){
+	adapter_count++;
 }
 
-std::string GPU::getDriverDate(){
-	return driverDate;
-}
-
-std::string GPU::getAdapterCompatibility() {
-	return adapterCompatibility;
-}
-
-std::string GPU::getVideoProcessor(){
-	return videoProcessor;
-}
-
-std::vector<std::string> GPU::getInstalledDisplayDrivers(){
-	return installedDisplayDrivers;
-}
-
-long long GPU::getRamSize(){
-	return ramSize;
-}
-
-void GPU::setVideoCardName(std::string _videoCardName){
-	videoCardName = _videoCardName;
-}
-
-void GPU::setDriverVersion(std::string _driverVersion){
-	driverVersion = _driverVersion;
-}
-
-void GPU::setDriverDate(std::string _driverDate){
-	driverDate = _driverDate;
-}
-
-void GPU::setAdapterCompatibility(std::string _adapterCompatibility){
-	adapterCompatibility = _adapterCompatibility;
-}
-
-void GPU::setVideoProcessor(std::string _videoProcessor){
-	videoProcessor = _videoProcessor;
-}
-
-void GPU::setInstalledDisplayDrivers(std::string _displayDrivers){
-
-	if (_displayDrivers.size() == 0 || _displayDrivers == "unavailable") {
-		return;
-	}
-
-	std::istringstream ss(_displayDrivers);
-	std::string token;
-
-	while (std::getline(ss, token, ',')) {
-		installedDisplayDrivers.push_back(token);
-	}
-}
-
-void GPU::setRamSize(std::string _ramSize){
-	if (_ramSize == "unavailable") {
-		return;
-	}
-	ramSize = std::stoll(_ramSize);
+std::vector<GPU::ADAPTER> GPU::getADAPTERS() {
+	return a_buf;
 }
