@@ -7,7 +7,7 @@
 #include <string>
 #include <comutil.h>
 #include <vector>
-#include <typeinfo>
+
 
 #pragma comment( lib, "Wbemuuid.lib" )
 

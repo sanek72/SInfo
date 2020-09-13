@@ -155,7 +155,8 @@ InitializesCOM::InitializesCOM(std::string _objectPath, std::string _wql, std::v
                     break;
 
                 case VBLONG_TYPE:
-                    _value.push_back(std::to_string(v.llVal));
+
+                    _value.push_back(std::to_string(v.uintVal));
                     VariantClear(&v);
                     break;
 
@@ -200,21 +201,22 @@ std::string InitializesCOM::getArrayValues_(HRESULT hr, SAFEARRAY* parray, int v
         SafeArrayGetUBound(parray, 1, &upperBound);
 
         long cnt_elements = upperBound - lowerBound + 1;
+        BSTR v;
 
         for (int i = 0; i < cnt_elements; ++i){  
 
-            BSTR v = temp[i];
+             v = temp[i];
 
             if (vType == VBSTRING_TYPE) {
-               
+
                     s +=  _com_util::ConvertBSTRToString(v);
                     s += "|";
 
             }
             else if (vType == VBLONG_TYPE) {
 
-                    s += std::to_string((LONG_PTR)v);
-                    s += "|";
+                    s += std::to_string((UINT)v);
+                    s += "|";               
 
             }
 

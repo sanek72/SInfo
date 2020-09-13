@@ -11,12 +11,7 @@ CPU::CPU(){
         "ProcessorId", "ProcessorType", "Revision", "Role", "SecondLevelAddressTranslationExtensions","SerialNumber", "SocketDesignation", "Status", "StatusInfo", "Stepping", 
         "SystemCreationClassName", "SystemName", "ThreadCount", "UniqueId", "UpgradeMethod", "Version", "VirtualizationFirmwareEnabled", "VMMonitorModeExtensions", "VoltageCaps"};
 
-    if (!isInit) {
-
         receiving(processor, processor_class);
-        CPU::isInit = true;
-
-    }
 }
 
 template< typename T, std::size_t N >
@@ -30,14 +25,9 @@ void CPU::receiving(std::array<T, N>& v, std::string _class_name) {
         properties.push_back(v[i]);
     }
 
-
-    InitializesCOM* initCOM;
-
-    initCOM = new InitializesCOM(ObjectPath, WQL + _class_name, properties);
-
     std::vector< std::string > value;
 
-    if (initCOM->Initialize(value)) {
+    if (InitializesCOM(ObjectPath, WQL + _class_name, properties).Initialize(value)) {
 
         //work
         for (size_t i = 0; i < properties.size(); ++i) {
@@ -80,11 +70,11 @@ void CPU::receiving(std::array<T, N>& v, std::string _class_name) {
         //erore 
         std::cout << typeid(CPU).name() << ". Error getting information." << std::endl;
     }
-
-    delete(initCOM);
 }
 
 std::string CPU::getProcessorName__cpuid(){
+
+    std::string s = "NULL";
 
     int cpuidex;
 
@@ -110,7 +100,9 @@ std::string CPU::getProcessorName__cpuid(){
         memcpy(cpu + 32, data[4].data(), sizeof(cpui));
     }
 
-    return cpu;
+    s = cpu;
+
+    return s;
 }
 
 int CPU::getProcessorCores_Win32() {
@@ -229,9 +221,3 @@ std::string CPU::architectureString(int a) {
     }
     return s;
 }
-
-
-//Name
-//NumberOfCores
-//NumberOfLogicalProcessors
-//SocketDesignation]

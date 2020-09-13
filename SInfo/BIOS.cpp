@@ -1,7 +1,5 @@
 #include "BIOS.h"
 
-
-
 BIOS::BIOS() {
 	static const int bios_size = 31;
 	static const std::string bios_class = "Win32_BIOS";
@@ -10,12 +8,8 @@ BIOS::BIOS() {
 		"PrimaryBIOS", "ReleaseDate", "SerialNumber", "SMBIOSBIOSVersion", "SMBIOSMajorVersion", "SMBIOSMinorVersion", "SMBIOSPresent", "SoftwareElementID", "SoftwareElementState", "Status",
 		"SystemBiosMajorVersion", "SystemBiosMinorVersion", "TargetOperatingSystem", "Version" };
 
-	if (!isInit) {
-
 		receiving(BIOS, bios_class);
-		BIOS::isInit = true;
 
-	}
 }
 
 template< typename T, std::size_t N >
@@ -28,14 +22,9 @@ void BIOS::receiving(std::array<T, N>& v, std::string _class_name) {
 		properties.push_back(v[i]);
 	}
 
-
-	InitializesCOM* initCOM;
-
-	initCOM = new InitializesCOM(ObjectPath, WQL + _class_name, properties);
-
 	std::vector< std::string > value;
 
-	if (initCOM->Initialize(value)) {
+	if (InitializesCOM(ObjectPath, WQL + _class_name, properties).Initialize(value)) {
 
 		//work
 		for (size_t i = 0; i < properties.size(); ++i) {
@@ -67,8 +56,6 @@ void BIOS::receiving(std::array<T, N>& v, std::string _class_name) {
 	
 
 	}
-
-	delete(initCOM);
 
 	}
 

@@ -14,15 +14,8 @@ Motherboard::Motherboard(){
 	   "Manufacturer", "Model", "Name", "OtherIdentifyingInfo", "PartNumber", "PoweredOn", "Product", "Removable", "Replaceabl", "RequirementsDescription",
 	   "RequiresDaughterBoard", "SerialNumber", "SKU", "SlotLayout", "SpecialRequirements", "Status", "Tag", "Version", "Weight", "Width" };
 
-
-	if (!isInit) {
-		
 		receiving(BaseBoard, baseBoard_class);
 		//receiving(MotherboardDevice, motherboardDevice_class);
-		Motherboard::isInit = true;
-		
-	}
-
 }
 
 template< typename T, std::size_t N >
@@ -36,14 +29,9 @@ void Motherboard::receiving( std::array<T, N> &v, std::string _class_name)  {
 		properties.push_back(v[i]);
 	}
 
-
-	InitializesCOM* initCOM;
-
-	initCOM = new InitializesCOM(ObjectPath, WQL + _class_name, properties);
-
 	std::vector< std::string > value;
 
-		if (initCOM->Initialize(value)) {
+	if (InitializesCOM(ObjectPath, WQL + _class_name, properties).Initialize(value)) {
 
 			//work
 			for (size_t i = 0; i < properties.size(); ++i) {
@@ -74,7 +62,6 @@ void Motherboard::receiving( std::array<T, N> &v, std::string _class_name)  {
 			std::cout << typeid(Motherboard).name() << ". Error getting information." << std::endl;
 		}
 
-		delete(initCOM);
 }
 
 

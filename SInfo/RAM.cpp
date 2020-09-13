@@ -19,15 +19,11 @@ RAM::RAM(){
     static const std::string physicalMemoryLocation_class = "Win32_PhysicalMemoryLocation";
     std::array<std::string, physicalMemoryLocation_size> physicalMemoryLocation = { "LocationWithinContainer", "PartComponent", "GroupComponent" };
 
-    if (!isInit) {
-
         // true - будем собирать информацию для каждого модуля RAM
         receiving(physicalMemory, physicalMemory_class, true);
         //receiving(physicalMemoryArray, physicalMemoryArray_class, false);
         //receiving(physicalMemoryLocation, physicalMemoryLocation_class, false);
-        RAM::isInit = true;
 
-    }
 }
 
 template<typename T, std::size_t N>
@@ -41,14 +37,9 @@ void RAM::receiving(std::array<T, N>& v, std::string _class_name, bool m){
         properties.push_back(v[i]);
     }
 
-
-    InitializesCOM* initCOM;
-
-    initCOM = new InitializesCOM(ObjectPath, WQL + _class_name, properties);
-
     std::vector< std::string > value;
 
-    if (initCOM->Initialize(value)) {
+    if (InitializesCOM(ObjectPath, WQL + _class_name, properties).Initialize(value)) {
         
         //work
         if (m) {
@@ -130,7 +121,6 @@ void RAM::receiving(std::array<T, N>& v, std::string _class_name, bool m){
         std::cout << typeid(RAM).name() << ". Error getting information." << std::endl;
     }
 
-    delete(initCOM);
 }
 
 

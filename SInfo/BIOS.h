@@ -23,8 +23,6 @@ private:
 
 	const std::string WQL = "SELECT * FROM ";
 
-	bool isInit = false;
-
 	template< typename T, std::size_t N >
 	void receiving(std::array<T, N>& v, std::string _class_name);
 
@@ -38,6 +36,8 @@ private:
 
 public:
 
+	BIOS();
+
 	std::string getManufacturer();
 
 	std::string getName();
@@ -45,8 +45,6 @@ public:
 	std::string getVersion();
 
 	std::string getSerialNumber();
-
-	BIOS();
 
 };
 

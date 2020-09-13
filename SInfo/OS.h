@@ -20,8 +20,6 @@ private:
 
 	const std::string WQL = "SELECT * FROM ";
 
-	bool isInit = false;
-
 	std::string OSName;
 
 	std::string сomputerName;

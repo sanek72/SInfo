@@ -12,8 +12,6 @@ private:
 
 	const std::string WQL = "SELECT * FROM ";
 
-	bool isInit = false;
-
 	std::string manufacturer;
 
 	std::string product;

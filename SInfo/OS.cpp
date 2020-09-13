@@ -13,12 +13,8 @@ OS::OS() {
 		"ProductType", "QuantumLength", "QuantumType", "RegisteredUser", "SerialNumber", "ServicePackMajorVersion", "ServicePackMinorVersion", "SizeStoredInPagingFiles", "Status", "SuiteMask", 
 		"SystemDevice", "SystemDirectory", "SystemDrive", "TotalSwapSpaceSize", "TotalVirtualMemorySize", "TotalVisibleMemorySize", "Version", "WindowsDirectory" };
 
-	if (!isInit) {
-
 		receiving(OperatingSystem, operatingSystem_class);
-		OS::isInit = true;
 
-	}
 }
 
 template< typename T, std::size_t N >
@@ -32,14 +28,9 @@ void OS::receiving(std::array<T, N>& v, std::string _class_name) {
 		properties.push_back(v[i]);
 	}
 
-
-	InitializesCOM* initCOM;
-
-	initCOM = new InitializesCOM(ObjectPath, WQL + _class_name, properties);
-
 	std::vector< std::string > value;
 
-	if (initCOM->Initialize(value)) {
+	if (InitializesCOM(ObjectPath, WQL + _class_name, properties).Initialize(value)) {
 
 		//work
 		for (size_t i = 0; i < properties.size(); ++i) {
@@ -96,7 +87,6 @@ void OS::receiving(std::array<T, N>& v, std::string _class_name) {
 		std::cout << typeid(OS).name() << ". Error getting information." << std::endl;
 	}
 
-	delete(initCOM);
 }
 
 
