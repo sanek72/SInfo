@@ -59,16 +59,16 @@ void GPU::receiving(std::array<T, N>& v, std::string _class_name) {
 					break;
 				}
 
-				//std::cout << "Class[" + _class_name + "] propertie[" + properties[b] + "] modul(" + std::to_string(a) + ") =" + value[i] << std::endl;
+				//std::cout << "Class[" + _class_name + "] propertie[" + properties[b] + "] adapter(" + std::to_string(c) + ") =" + value[i] << std::endl;
 
-				if (properties[i] == "Name") {
+				if (properties[b] == "Name") {
 
 					//setVideoCardName(value[i]);
 					a.videoCardName = value[i];
 
 				}
 
-				if (properties[i] == "InstalledDisplayDrivers") {
+				if (properties[b] == "InstalledDisplayDrivers") {
 
 					//setInstalledDisplayDrivers(value[i]);
 					if (value[i].size() != 0 || value[i] != "unavailable") {
@@ -84,35 +84,35 @@ void GPU::receiving(std::array<T, N>& v, std::string _class_name) {
 
 				}
 
-				if (properties[i] == "DriverDate") {
+				if (properties[b] == "DriverDate") {
 
 					//setDriverDate(value[i]);
 					a.driverDate = value[i];
 
 				}
 
-				if (properties[i] == "DriverVersion") {
+				if (properties[b] == "DriverVersion") {
 
 					//setDriverVersion(value[i]);
 					a.driverVersion = value[i];
 
 				}
 
-				if (properties[i] == "AdapterCompatibility") {
+				if (properties[b] == "AdapterCompatibility") {
 
 					//setAdapterCompatibility(value[i]);
 					a.adapterCompatibility = value[i];
 
 				}
 
-				if (properties[i] == "VideoProcessor") {
+				if (properties[b] == "VideoProcessor") {
 
 					//setVideoProcessor(value[i]);
 					a.videoProcessor = value[i];
 
 				}
 
-				if (properties[i] == "AdapterRAM") {
+				if (properties[b] == "AdapterRAM") {
 
 					//setRamSize(value[i]);
 					if (value[i] != "unavailable") {

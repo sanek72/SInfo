@@ -45,7 +45,8 @@ int main(){
 
     } else {
         for (int i = 0; i < info.getGPUInformation().getAdapterCount(); ++i) {
-            cout << "  Adapter(" + std::to_string(i) + ")" << endl;
+            cout << endl;
+            cout << "  Adapter(" + std::to_string(i+1) + "):" << endl;
             cout << "  " + info.getGPUInformation().getADAPTERS()[i].adapterCompatibility << endl;
             cout << "  " + info.getGPUInformation().getADAPTERS()[i].videoCardName << endl;
             cout << "  Draiver vesion: " + info.getGPUInformation().getADAPTERS()[i].driverVersion + " Date: " + util.getCIM_DATETIME(info.getGPUInformation().getADAPTERS()[i].driverDate) << endl;
@@ -54,6 +55,7 @@ int main(){
             }
             cout << "  Memory size " + std::to_string(info.getGPUInformation().getADAPTERS()[i].ramSize / 1024 / 1024) + "mb" << endl; // max 4095mb,  AdapterRAM type = uint32, =)
             cout << "  VideoProcessor: " + info.getGPUInformation().getADAPTERS()[i].videoProcessor << endl;
+            cout << endl;
         }
     }
 
@@ -69,7 +71,7 @@ int main(){
     cout << "  Memory RAM modules count: " + std::to_string(info.getRAMInformation().getModulesCount())  << endl;
     for (int i = 0; i < info.getRAMInformation().getModulesCount(); ++i) {
 
-        cout << "  Modul(" + std::to_string(i) + "): " + info.getRAMInformation().getModulesRAM()[i].name +
+        cout << "  Modul(" + std::to_string(i+1) + "): " + info.getRAMInformation().getModulesRAM()[i].name +
             "  " + info.getRAMInformation().getModulesRAM()[i].bank  +
             "  " + std::to_string(info.getRAMInformation().getModulesRAM()[i].ramSize/1024/1024/1024) + "gb" +
             "  " + std::to_string(info.getRAMInformation().getModulesRAM()[i].speed) + "MHz" << endl;
