@@ -7,7 +7,8 @@
 #include <string>
 #include <comutil.h>
 #include <vector>
-
+#include "DataWork.h"
+#include "Data.h"
 
 #pragma comment( lib, "Wbemuuid.lib" )
 
@@ -24,7 +25,7 @@ private:
 	static const  int VBLONG_TYPE = 3;
 	static const  int VTNULL_TYPE = 1;
 
-	struct connect  {
+	struct connect  {//del
 		std::string objectPath;
 		std::string wql;
 		std::vector< std::string > properties;
@@ -36,9 +37,13 @@ private:
 
 public:
 
+	InitializesCOM();
+
 	InitializesCOM(std::string objectPath, std::string wql, std::vector< std::string > _properties);
 
 	bool Initialize(std::vector< std::string > &_value);
+
+	bool Initialize(std::string objectPath, std::string wql, std::vector< std::string > _properties, Data *_data);
 
 };
 

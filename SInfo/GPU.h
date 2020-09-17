@@ -7,6 +7,7 @@
 #include <vector>
 #include <typeinfo>
 #include "InitializesCOM.h"
+#include "DataWork.h"
 
 class GPU {
 
@@ -39,7 +40,7 @@ private:
 
 	void setAdapterCount();
 
-	struct ADAPTER {
+	struct ADAPTER {//del
 
 		std::string videoCardName;
 
@@ -51,7 +52,7 @@ private:
 
 		std::string videoProcessor;
 
-		std::vector< std::string > installedDisplayDrivers;
+		std::string installedDisplayDrivers;
 
 		long long ramSize = 0;
 	};

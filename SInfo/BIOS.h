@@ -9,17 +9,9 @@
 
 class BIOS{
 
-	std::string manufacturer;
-
-	std::string name;
-
-	std::string version;
-
-	std::string serialNumber;
-
 private:
 
-	const std::string ObjectPath = "root\\cimv2";
+	const std::string OBJECTPATH = "root\\cimv2";
 
 	const std::string WQL = "SELECT * FROM ";
 
@@ -33,6 +25,15 @@ private:
 	void setVersion(std::string _version);
 
 	void setSerialNumber(std::string _serialNumber);
+
+	std::string manufacturer;
+
+	std::string name;
+
+	std::string version;
+
+	std::string serialNumber;
+
 
 public:
 

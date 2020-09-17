@@ -1,14 +1,17 @@
 #include "BIOS.h"
 
 BIOS::BIOS() {
-	static const int bios_size = 31;
-	static const std::string bios_class = "Win32_BIOS";
-	std::array<std::string, bios_size> BIOS = { "BiosCharacteristics", "BIOSVersion", "BuildNumber", "Caption", "CodeSet", "CurrentLanguage", "Description", "EmbeddedControllerMajorVersion",
+
+	const int BIOS_SIZE = 31;
+
+	const std::string BIOS_CLASS = "Win32_BIOS";
+
+	std::array<std::string, BIOS_SIZE> bios = { "BiosCharacteristics", "BIOSVersion", "BuildNumber", "Caption", "CodeSet", "CurrentLanguage", "Description", "EmbeddedControllerMajorVersion",
 		"EmbeddedControllerMinorVersion", "IdentificationCode", "InstallableLanguages", "InstallDate", "LanguageEdition", "ListOfLanguages", "Manufacturer", "Name", "OtherTargetOS",
 		"PrimaryBIOS", "ReleaseDate", "SerialNumber", "SMBIOSBIOSVersion", "SMBIOSMajorVersion", "SMBIOSMinorVersion", "SMBIOSPresent", "SoftwareElementID", "SoftwareElementState", "Status",
 		"SystemBiosMajorVersion", "SystemBiosMinorVersion", "TargetOperatingSystem", "Version" };
 
-		receiving(BIOS, bios_class);
+		receiving(bios, BIOS_CLASS);
 
 }
 
@@ -24,7 +27,7 @@ void BIOS::receiving(std::array<T, N>& v, std::string _class_name) {
 
 	std::vector< std::string > value;
 
-	if (InitializesCOM(ObjectPath, WQL + _class_name, properties).Initialize(value)) {
+	if (InitializesCOM(OBJECTPATH, WQL + _class_name, properties).Initialize(value)) {
 
 		//work
 		for (size_t i = 0; i < properties.size(); ++i) {

@@ -147,6 +147,8 @@
   <ItemGroup>
     <ClCompile Include="BIOS.cpp" />
     <ClCompile Include="CPU.cpp" />
+    <ClCompile Include="DataWork.cpp" />
+    <ClCompile Include="Data.cpp" />
     <ClCompile Include="GPU.cpp" />
     <ClCompile Include="InitializesCOM.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -159,6 +161,8 @@
   <ItemGroup>
     <ClInclude Include="BIOS.h" />
     <ClInclude Include="CPU.h" />
+    <ClInclude Include="DataWork.h" />
+    <ClInclude Include="Data.h" />
     <ClInclude Include="GPU.h" />
     <ClInclude Include="InitializesCOM.h" />
     <ClInclude Include="Motherboard.h" />

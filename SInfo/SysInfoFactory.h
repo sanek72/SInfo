@@ -17,26 +17,26 @@ class SysInfoFactory {
 
 private:
 
-	Motherboard board;
-	OS os;
-	CPU cpu;
+	//Motherboard board;
+	//OS os;
+	//CPU cpu;
 	GPU gpu;
-	RAM ram;
-	BIOS bios;
+	//RAM ram;
+	//BIOS bios;
 
 public:
 
-	OS getOSInformation();
+	//OS getOSInformation();
 
-	CPU getCPUInformation();
+	//CPU getCPUInformation();
 
 	GPU getGPUInformation();
 
-	Motherboard getMotherboardInformation();
+	//Motherboard getMotherboardInformation();
 
-	RAM getRAMInformation();
+	//RAM getRAMInformation();
 
-	BIOS getBIOSInformation();
+	//BIOS getBIOSInformation();
 
 };
 

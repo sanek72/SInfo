@@ -1,5 +1,9 @@
 #include "InitializesCOM.h"
 
+InitializesCOM::InitializesCOM()
+{
+}
+
 //https://docs.microsoft.com/ru-ru/windows/win32/wmisdk/example-creating-a-wmi-application?redirectedfrom=MSDN
 InitializesCOM::InitializesCOM(std::string _objectPath, std::string _wql, std::vector< std::string > _properties) {
 
@@ -176,6 +180,190 @@ InitializesCOM::InitializesCOM(std::string _objectPath, std::string _wql, std::v
 
         }
       
+    }
+
+    pLocator->Release();
+    pService->Release();
+    pEnum->Release();
+    pObject->Release();
+    ::CoUninitialize();
+
+    return true;
+
+}
+
+bool InitializesCOM::Initialize(std::string _objectPath, std::string _wql, std::vector<std::string> _properties, Data *_data){
+
+    if (_properties.size() == 0) {
+        return false;
+    }
+
+    HRESULT hresult = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+    //HRESULT hresult = CoInitializeEx(0, COINIT_MULTITHREADED);
+
+    if (FAILED(hresult)) {
+        std::cout << "Failed to initialize COM library. " << std::endl;
+        return false;
+    }
+
+    hresult = CoInitializeSecurity(NULL, -1, NULL, NULL, RPC_C_AUTHN_LEVEL_CONNECT, RPC_C_IMP_LEVEL_IMPERSONATE, NULL, EOAC_NONE, NULL);
+
+    if (FAILED(hresult)) {
+        std::cout << "Failed to initialize security. " << std::endl;
+        return false;
+    }
+
+    IWbemLocator* pLocator = NULL;
+
+    hresult = CoCreateInstance(CLSID_WbemLocator, 0, CLSCTX_ALL, IID_IWbemLocator, (LPVOID*)&pLocator);
+    if (FAILED(hresult)) {
+        std::cout << "Failed to create IWbemLocator object. " << std::endl;
+        ::CoUninitialize();
+        return false;
+    }
+
+    IWbemServices* pService = NULL;
+
+    _bstr_t objectPath = _objectPath.c_str();
+
+    hresult = pLocator->ConnectServer(objectPath, NULL, NULL, NULL, NULL, NULL, NULL, &pService);
+
+    if (hresult != S_OK) {
+        std::cout << "The COM library is already initialized on this thread. " << std::endl;
+        ::CoUninitialize();
+        return false;
+
+    }
+
+    IEnumWbemClassObject* pEnum;
+
+    _bstr_t wql = _wql.c_str();
+
+    hresult = pService->ExecQuery(_bstr_t(L"WQL"), wql, WBEM_FLAG_RETURN_IMMEDIATELY | WBEM_FLAG_FORWARD_ONLY, 0, &pEnum);
+    if (FAILED(hresult)) {
+        std::cout << "Query for operating system name failed." << std::endl;
+        pLocator->Release();
+        ::CoUninitialize();
+        return false;
+    }
+
+    ULONG uReturn = 0;
+    IWbemClassObject* pObject = NULL;
+
+    while (pEnum) {
+
+        hresult = pEnum->Next(WBEM_INFINITE, 1, &pObject, &uReturn);
+
+        if (FAILED(hresult)) {
+
+            pLocator->Release();
+            pService->Release();
+            pEnum->Release();
+            ::CoUninitialize();
+            return false;
+
+        }
+
+        if (0 == uReturn) {
+
+            break;
+
+        }
+        BSTR temp;
+        VARIANT v;
+
+        VariantInit(&v);
+
+        size_t len = _properties.size();
+
+        for (size_t i = 0; i < len; ++i) {
+
+            //std::cout << _properties[i] << " " << std::endl;
+
+            temp = _com_util::ConvertStringToBSTR(_properties[i].c_str());
+
+            hresult = pObject->Get(temp, NULL, &v, NULL, NULL);
+
+            if (FAILED(hresult)) {
+
+               // std::cout << _properties[i] << " " << std::endl;
+                VariantClear(&v);
+
+            }
+            else if (v.bstrVal == NULL) {
+                //std::cout << _properties[i] << " " << std::endl;
+
+                VariantClear(&v);
+
+            }
+            else {
+
+                int vType = v.vt;
+
+                DataWork dataWork;
+                //Data dd;
+                switch (vType) {
+
+                case VBSTRING_TYPE:
+
+                    dataWork.setDataBSTR(_properties[i], v.bstrVal, _data);
+                    VariantClear(&v);
+                    
+                    break;
+                case VBARRAY_TYPE + VBSTRING_TYPE:
+
+   
+                    dataWork.setDataSAFEARRAY_string(hresult, _properties[i], v.parray, _data);
+                    VariantClear(&v);
+                    break;
+
+                case VBARRAY_TYPE + VBLONG_TYPE:
+
+
+                    VariantClear(&v);
+                    break;
+
+                case VBBOOLEAN_TYPE:
+
+
+                    VariantClear(&v);
+                    break;
+
+                case VBINTEGER_TYPE:
+
+
+                    VariantClear(&v);
+                    break;
+
+                case VBBYTE_TYPE:
+
+
+                    VariantClear(&v);
+                    break;
+
+                case VBLONG_TYPE:
+
+
+                    VariantClear(&v);
+                    break;
+
+                case VTNULL_TYPE:
+
+
+                    VariantClear(&v);
+                    break;
+
+                default:
+                    //std::cout << typeid(InitializesCOM).name() << "p ropertie[" + c.properties[i] + "] = " "The VARTYPE " + std::to_string(vType) + " is unknown." << std::endl;
+
+                    VariantClear(&v);
+                    break;
+
+                }
+            }
+
+        }
+
     }
 
     pLocator->Release();
