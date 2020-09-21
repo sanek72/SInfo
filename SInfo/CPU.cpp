@@ -1,85 +1,58 @@
 #include "CPU.h"
 
-CPU::CPU(){
+CPU::CPU(bool WMIRequest) {
 
-    static const int processor_size = 57;
-    static const std::string processor_class = "Win32_Processor";
-    std::array<std::string, processor_size> processor = { "AddressWidth", "Architecture", "AssetTag", "Availability", "Caption", "Characteristics", "ConfigManagerErrorCode",
-        "ConfigManagerUserConfig", "CpuStatus", "CreationClassName", "CurrentClockSpeed", "CurrentVoltage", "DataWidth", "Description", "DeviceID", "ErrorCleared", "ErrorDescription", 
-        "ExtClock", "Family", "InstallDate", "L2CacheSize", "L2CacheSpeed", "L3CacheSize", "L3CacheSpeed", "LastErrorCode", "Level", "LoadPercentage", "Manufacturer", "MaxClockSpeed", "Name", 
-        "NumberOfCores", "NumberOfEnabledCore", "NumberOfLogicalProcessors","OtherFamilyDescription", "PartNumber", "PNPDeviceID", "PowerManagementCapabilities", "PowerManagementSupported", 
-        "ProcessorId", "ProcessorType", "Revision", "Role", "SecondLevelAddressTranslationExtensions","SerialNumber", "SocketDesignation", "Status", "StatusInfo", "Stepping", 
-        "SystemCreationClassName", "SystemName", "ThreadCount", "UniqueId", "UpgradeMethod", "Version", "VirtualizationFirmwareEnabled", "VMMonitorModeExtensions", "VoltageCaps"};
+    if (WMIRequest) {
+        static const int PROCESSOR_SIZE = 57;
+        static const std::string PROCESSOR_CLASS = "Win32_Processor";
+        std::array<std::string, PROCESSOR_SIZE> processor = { "Architecture", "Name", "NumberOfCores", "NumberOfLogicalProcessors", "SocketDesignation" };
+        receiving(processor, PROCESSOR_CLASS);
+    }
 
-        receiving(processor, processor_class);
 }
 
-template< typename T, std::size_t N >
-void CPU::receiving(std::array<T, N>& v, std::string _class_name) {
+template< typename T, size_t N >
+void CPU::receiving(array<T, N>& v, string _class_name) {
 
     size_t len = v.size();
 
-    std::vector< std::string > properties;
+    vector< string > properties;
 
     for (size_t i = 0; i < len; ++i) {
         properties.push_back(v[i]);
     }
 
-    std::vector< std::string > value;
+    DataWork dataWork;
 
-    if (InitializesCOM(ObjectPath, WQL + _class_name, properties).Initialize(value)) {
+    InitializesCOM initCom;
+
+    if (initCom.Initialize(OBJECTPATH, WQL + _class_name, properties, dataWork)) {
 
         //work
-        for (size_t i = 0; i < properties.size(); ++i) {
+        for (int i = 1; i <= dataWork.data_count; ++i) {
 
-            //std::cout << "Class[" + _class_name + "] propertie[" + properties[i] + "] = " + value[i]<< std::endl;
-
-            if (properties[i] == "Architecture") {
-
-                setArchitecturer(value[i]);
-
-            }
-
-            if (properties[i] == "Name") {
-
-                setProcessorName(value[i]);
-
-            }
-
-            if (properties[i] == "NumberOfCores") {
-
-                setProcessorCores(value[i]);
-
-            }
-            if (properties[i] == "NumberOfLogicalProcessors") {
-
-                setProcessorThreads(value[i]);
-
-            }
-
-            if (properties[i] == "SocketDesignation") {
-
-                setSocket(value[i]);
-
-            }
+            setProcessorName(dataWork.getDataString("Name" + to_string(i)));
+            setArchitecturer(dataWork.getDataLong("Architecture" + to_string(i)));
+            setProcessorCores(dataWork.getDataLong("NumberOfCores" + to_string(i)));
+            setProcessorThreads(dataWork.getDataLong("NumberOfLogicalProcessors" + to_string(i)));
+            setSocket(dataWork.getDataString("SocketDesignation" + to_string(i)));
 
         }
 
+    } else {
+        //erore
+        cout << typeid(CPU).name() << ". Error getting information." << endl;
     }
-    else {
-        //erore 
-        std::cout << typeid(CPU).name() << ". Error getting information." << std::endl;
-    }
+
 }
 
-std::string CPU::getProcessorName__cpuid(){
 
-    std::string s = "NULL";
+string CPU::getProcessorName__cpuid() {
 
     int cpuidex;
 
-    std::array<int, 4> cpui;
-    std::vector<std::array<int, 4>> data;
+    array<int, 4> cpui;
+    vector<array<int, 4>> data;
 
     __cpuid(cpui.data(), 0x80000000);
     cpuidex = cpui[0];
@@ -100,9 +73,7 @@ std::string CPU::getProcessorName__cpuid(){
         memcpy(cpu + 32, data[4].data(), sizeof(cpui));
     }
 
-    s = cpu;
-
-    return s;
+    return cpu;
 }
 
 int CPU::getProcessorCores_Win32() {
@@ -137,22 +108,21 @@ int CPU::getProcessorThreads_Win32() {
 }
 
 
-std::string CPU::getArchitecture(){
-    if (architecture == "unavailable") {
-        return architectureString(0xffff);
-    }
-    return architectureString(std::stoi(architecture));
+string CPU::getArchitecture(){
+    return architectureString(architecture);
 }
 
-void CPU::setArchitecturer(std::string _architecture){
-    architecture = _architecture;
+void CPU::setArchitecturer(long _architecture){
+    if (_architecture != -1) {
+        architecture = _architecture;
+    }  
 }
 
-std::string CPU::getProcessorName(){
+string CPU::getProcessorName(){
     return processorName;
 }
 
-void CPU::setProcessorName(std::string _processorName){
+void CPU::setProcessorName(string _processorName){
     processorName = _processorName;
 }
 
@@ -160,35 +130,29 @@ int CPU::getProcessorCores(){
     return processorCores;
 }
 
-void CPU::setProcessorCores(std::string _processorCores){
-    if (_processorCores == "unavailable") {
-        return;
-    }
-    processorCores = std::stoi(_processorCores);
+void CPU::setProcessorCores(int _processorCores){
+    processorCores = _processorCores;
 }
 
 int CPU::getProcessorThreads(){
     return processorThreads;
 }
 
-void CPU::setProcessorThreads(std::string _processorThreads){
-    if (_processorThreads == "unavailable") {
-        return;
-    }
-    processorThreads = std::stoi(_processorThreads);
+void CPU::setProcessorThreads(int _processorThreads){
+    processorThreads = _processorThreads;
 }
 
-std::string CPU::getSocket(){
+string CPU::getSocket(){
     return socket;
 }
 
-void CPU::setSocket(std::string _socket){
+void CPU::setSocket(string _socket){
     socket = _socket;
 }
 
-std::string CPU::architectureString(int a) {
+string CPU::architectureString(int a) {
 
-    std::string s = "null";
+    string s = "unavailable";
 
     switch (a) {
     case 0:
@@ -198,10 +162,10 @@ std::string CPU::architectureString(int a) {
         s = "MIPS";
         break;
     case 2:
-        s = "Alpha ";
+        s = "Alpha";
         break;
     case 3:
-        s = "PowerPC  ";
+        s = "PowerPC ";
         break;
     case 5:
         s = "ARM";
@@ -216,7 +180,7 @@ std::string CPU::architectureString(int a) {
         s = "ARM64";
         break;
     case 0xffff:
-        s = "Unknown architecture.";
+        s = "unavailable";
         break;
     }
     return s;

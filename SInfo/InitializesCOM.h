@@ -5,13 +5,13 @@
 #include <cstring>
 #include <iostream>
 #include <string>
-#include <comutil.h>//del
 #include <vector>
 #include "DataWork.h"
 
 
 #pragma comment( lib, "Wbemuuid.lib" )
 
+using namespace std;
 
 class InitializesCOM{
 
@@ -25,25 +25,9 @@ private:
 	static const  int VBLONG_TYPE = 3;
 	static const  int VTNULL_TYPE = 1;
 
-	struct connect  {//del
-		std::string objectPath;
-		std::string wql;
-		std::vector< std::string > properties;
-	};
-
-	connect c;
-
-	std::string getArrayValues_(HRESULT hr, SAFEARRAY* parray, int vType);	
-
 public:
 
-	InitializesCOM();
-
-	InitializesCOM(std::string objectPath, std::string wql, std::vector< std::string > _properties);
-
-	bool Initialize(std::vector< std::string > &_value);
-
-	bool Initialize(std::string objectPath, std::string wql, std::vector< std::string > _properties, DataWork &_dataWork);
+	bool Initialize(string objectPath, string wql, vector< string > _properties, DataWork &_dataWork);
 
 };
 

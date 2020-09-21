@@ -1,16 +1,16 @@
 #pragma once
 
-#pragma comment(lib, "user32.lib")
-#pragma comment(lib, "Secur32.lib")
-
+#include <iostream>
+#include <cstdlib> 
+#include "Utils.h"
 #include "Motherboard.h"
 #include "OS.h"
-#include <string>
 #include "CPU.h"
 #include "GPU.h"
 #include "RAM.h"
 #include "BIOS.h"
 
+using namespace std;
 
 class SysInfoFactory {
 
@@ -22,8 +22,6 @@ public:
 	SysInfoFactory();
 
 	void gathered();
-
-
 
 };
 

@@ -1,117 +1,77 @@
 #include "OS.h"
 
 
-OS::OS() {
+OS::OS(bool WMIRequest) {
 
-	static const int operatingSystem_size = 64;
-	static const std::string operatingSystem_class = "Win32_OperatingSystem";
-	std::array<std::string, operatingSystem_size> OperatingSystem = { "BootDevice", "BuildNumber", "BuildType", "Caption", "CodeSet", "CountryCode", "CreationClassName", "CSDVersion", "CSName", "CurrentTimeZone", "Name",
-	"DataExecutionPrevention_Available", "DataExecutionPrevention_32BitApplications", "DataExecutionPrevention_Drivers", "DataExecutionPrevention_SupportPolicy", "Debug", "Description",
-	"Distributed", "EncryptionLevel", "ForegroundApplicationBoost", "FreePhysicalMemory", "FreeSpaceInPagingFiles", "FreeVirtualMemory", "InstallDate", "LargeSystemCache", "LastBootUpTime",
-		"LocalDateTime", "Locale", "Manufacturer", "MaxNumberOfProcesses", "MaxProcessMemorySize", "MUILanguages", "NumberOfLicensedUsers", "NumberOfProcesses", "OperatingSystemSKU",
-	"Organization", "OSArchitecture", "OSLanguage", "OSProductSuite", "OSType", "OtherTypeDescription", "PAEEnabled", "PlusProductID", "PlusVersionNumber", "PortableOperatingSystem", "Primary", 
-		"ProductType", "QuantumLength", "QuantumType", "RegisteredUser", "SerialNumber", "ServicePackMajorVersion", "ServicePackMinorVersion", "SizeStoredInPagingFiles", "Status", "SuiteMask", 
-		"SystemDevice", "SystemDirectory", "SystemDrive", "TotalSwapSpaceSize", "TotalVirtualMemorySize", "TotalVisibleMemorySize", "Version", "WindowsDirectory" };
-
-		receiving(OperatingSystem, operatingSystem_class);
+	if (WMIRequest) {
+		static const int OPERATINGSYSTEM_SIZE = 6;
+		static const string OPERATINGSYSTEM_CLASS = "Win32_OperatingSystem";
+		array<string, OPERATINGSYSTEM_SIZE> OperatingSystem = { "Caption", "CSName", "BuildNumber", "OSArchitecture", "LocalDateTime", "RegisteredUser" };
+		receiving(OperatingSystem, OPERATINGSYSTEM_CLASS);
+	}
 
 }
 
-template< typename T, std::size_t N >
-void OS::receiving(std::array<T, N>& v, std::string _class_name) {
+template< typename T, size_t N >
+void OS::receiving(array<T, N>& v, string _class_name) {
 
 	size_t len = v.size();
 
-	std::vector< std::string > properties;
+	vector< string > properties;
 
 	for (size_t i = 0; i < len; ++i) {
 		properties.push_back(v[i]);
 	}
 
-	std::vector< std::string > value;
+	DataWork dataWork;
 
-	if (InitializesCOM(ObjectPath, WQL + _class_name, properties).Initialize(value)) {
+	InitializesCOM initCom;
+
+	if (initCom.Initialize(OBJECTPATH, WQL + _class_name, properties, dataWork)) {
 
 		//work
-		for (size_t i = 0; i < properties.size(); ++i) {
+		for (int i = 1; i <= dataWork.data_count; ++i) {
 
-			//std::cout << "Class[" + _class_name + "] propertie[" + properties[i] + "] = " + value[i] << std::endl;
-
-			if (properties[i] == "Caption") {
-
-				setOSName(value[i]);
-
-			}
-
-			if (properties[i] == "CSName") {
-
-				setComputerName(value[i]);
-
-			}
-
-			if (properties[i] == "BuildNumber") {
-
-				setBuildNumber(value[i]);
-
-			}
-
-			//if (properties[i] == "FreePhysicalMemory") {
-
-			//	setFreePhysicalMemory(value[i]);
-
-			//}
-
-			if (properties[i] == "OSArchitecture") {
-
-				setOSArchitecture(value[i]);
-
-			}
-
-			if (properties[i] == "LocalDateTime") {
-
-				setLocalDateTime(value[i]);
-
-			}
-
-			if (properties[i] == "RegisteredUser") {
-
-				setRegisteredUser(value[i]);
-
-			}
+			setOSName(dataWork.getDataString("Caption" + to_string(i)));
+			setComputerName(dataWork.getDataString("CSName" + to_string(i)));
+			setBuildNumber(dataWork.getDataString("BuildNumber" + to_string(i)));
+			setOSArchitecture(dataWork.getDataString("OSArchitecture" + to_string(i)));
+			setLocalDateTime(dataWork.getDataString("LocalDateTime" + to_string(i)));
+			setRegisteredUser(dataWork.getDataString("RegisteredUser" + to_string(i)));
 
 		}
 
-	}
-	else {
+	} else {
 		//erore
-		std::cout << typeid(OS).name() << ". Error getting information." << std::endl;
+		cout << typeid(OS).name() << ". Error getting information." << endl;
 	}
 
 }
 
+string OS::getComputerName_Win32(){
 
-std::string OS::getComputerName_Win32(){
-
+	string s = "unavailable";
 	char buffer[256];
 	DWORD size = 256;
 
 	if (GetComputerNameA(buffer, &size)) {
 
-		return buffer;
+		s = buffer;
+		return s;
 
 	} else {
 
-    printf(typeid(OS).name() ,". Error getting information.");
-		printf("%d\n", GetLastError());
-		return "NULL";
+		cout << typeid(OS).name() << ". Error getting information. " << GetLastError() << endl;
+		return s;
 
 	}
-	return "NULL";
+	return s;
 
 }
 
-std::string OS::getOSName_Win32() {
+string OS::getOSName_Win32() {
 
+	string s = "unavailable";
 	OSVERSIONINFOEX info;
 	ZeroMemory(&info, sizeof(OSVERSIONINFOEX));
 	info.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
@@ -119,7 +79,7 @@ std::string OS::getOSName_Win32() {
 	if (GetVersionEx((LPOSVERSIONINFO)&info)) {
 
 		if (info.dwMajorVersion == 10 && info.dwMinorVersion == 0) {
-			return "Windows 10 (bulid: " + std::to_string(info.dwBuildNumber) + ")";
+			return "Windows 10 (bulid: " + to_string(info.dwBuildNumber) + ")";
 		}
 		if (info.dwMajorVersion == 6 && info.dwMinorVersion == 3) {
 			return "Windows 8.1";
@@ -145,76 +105,67 @@ std::string OS::getOSName_Win32() {
 
 	} else {
 
-		printf(typeid(OS).name(), ". Error getting information.");
-		printf("%d\n", GetLastError());
-		return "NULL";
+		cout << typeid(OS).name() << ". Error getting information. " << GetLastError() << endl;
+		return s;
 
 	}
 
-	return "NULL";
+	return s;
 
 	}
 
-std::string OS::getOSName(){
-
+string OS::getOSName(){
 	return OSName;
-
 }
 
-void OS::setOSName(std::string _OSName){
+void OS::setOSName(string _OSName){
 	OSName = _OSName;
 }
 
-std::string OS::getComputerName(){
+string OS::getComputerName(){
 	return сomputerName;
 }
 
-void OS::setComputerName(std::string _сomputerName){
+void OS::setComputerName(string _сomputerName){
 	сomputerName = _сomputerName;
 }
 
-std::string OS::getBuildNumber() {
+string OS::getBuildNumber() {
 	return buildNumber;
 }
 
-void OS::setBuildNumber(std::string _buildNumber) {
+void OS::setBuildNumber(string _buildNumber) {
 	buildNumber = _buildNumber;
 }
 
-//int OS::getFreePhysicalMemory() {
-//	return freePhysicalMemory;
-//}
-//
-//void OS::setFreePhysicalMemory(std::string _freePhysicalMemory) {
-//	freePhysicalMemory = std::stoi(_freePhysicalMemory);
-//}
 
-std::string OS::getOSArchitecture() {
+string OS::getOSArchitecture() {
 	return OSArchitecture;
 }
 
-void OS::setOSArchitecture(std::string _OSArchitecture) {
+void OS::setOSArchitecture(string _OSArchitecture) {
 	OSArchitecture = _OSArchitecture;
 }
 
-std::string OS::getLocalDateTime() {
+string OS::getLocalDateTime() {
 	return localDateTime;
 }
 
-void OS::setLocalDateTime(std::string _localDateTime) {
+void OS::setLocalDateTime(string _localDateTime) {
 	localDateTime = _localDateTime;
 }
 
-std::string OS::getRegisteredUser() {
+string OS::getRegisteredUser() {
 	return registeredUser;
 }
 
-void OS::setRegisteredUser(std::string _registeredUser) {
+void OS::setRegisteredUser(string _registeredUser) {
 	registeredUser = _registeredUser;
 }
 
-std::string OS::getUserNameEx() {
+string OS::getUserNameEx() {
 
+	string s = "unavailable";
 	unsigned long Size = 256;
 	char* buffer = new char[Size];
 
@@ -225,33 +176,40 @@ std::string OS::getUserNameEx() {
 
 	if (GetUserNameExA(NameGivenName, buffer, &Size)) {
 
-		return buffer;
+		s = buffer;
+		return s;
+
+	} else {
+
+		cout << typeid(OS).name() << ". Error getting information. " << GetLastError() << endl;
+		delete [] buffer;
+		return s;
 
 	}
-	else {
+	delete [] buffer;
+	return s;
 
-		printf("ERORE. Failed to GetUserNameEx: ");
-		printf("%d\n", GetLastError());
-		return "NULL";
-
-	}
-	return "NULL";
 }
 
-std::string OS::getUserName() {
+string OS::getUserName() {
+
+	string s = "unavailable";
 	unsigned long Size = 256;
 	char* buffer = new char[Size];
 	if (GetUserNameA(buffer, &Size)) {
 
-		return buffer;
+		s = buffer;
+		return s;
 
 	}
 	else {
 
-		printf("ERORE. Failed to GetUserNameEx: ");
-		printf("%d\n", GetLastError());
-		return "NULL";
+		cout << typeid(OS).name() << ". Error getting information. " << GetLastError() << endl;
+		delete[] buffer;
+		return s;
 
 	}
-	return "NULL";
+	delete[] buffer;
+	return s;
+
 }

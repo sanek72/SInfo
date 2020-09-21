@@ -3,10 +3,12 @@
 #include <string>
 #include <iostream>
 
+using namespace std;
+
 class Utils {
 
 public:
 
-	static std::string getCIM_DATETIME(std::string value);
+	static string getCIM_DATETIME(string value);
 
 };

@@ -7,59 +7,61 @@
 #include <iostream>
 #include <typeinfo>
 #include "InitializesCOM.h"
+#include "DataWork.h"
 
+using namespace std;
 
 class CPU {
 
 private:
 
-	const std::string ObjectPath = "root\\cimv2";
+	const string OBJECTPATH = "root\\cimv2";
 
-	const std::string WQL = "SELECT * FROM ";
+	const string WQL = "SELECT * FROM ";
 
-	template< typename T, std::size_t N >
-	void receiving(std::array<T, N>& v, std::string _class_name);
+	template< typename T, size_t N >
+	void receiving(array<T, N>& v, string _class_name);
 
-	std::string architecture;
+	long architecture = 0xffff;
 
-	std::string processorName;
+	string processorName;
 
-	std::string socket;
+	string socket;
 
 	int processorCores = 0;
 
 	int processorThreads = 0;
 
-	void setArchitecturer(std::string _architecture);
+	void setArchitecturer(long _architecture);
 
-	void setProcessorName(std::string _processorName);
+	void setProcessorName(string _processorName);
 
-	void setProcessorCores(std::string _processorCores);
+	void setProcessorCores(int _processorCores);
 
-	void setProcessorThreads(std::string _processorThreads);
+	void setProcessorThreads(int _processorThreads);
 
-	void setSocket(std::string _socket);
+	void setSocket(string _socket);
 
 public:
 
-	CPU();
+	CPU(bool WMIRequest);
 
-	std::string getProcessorName__cpuid();
+	string getProcessorName__cpuid();
 
 	int getProcessorCores_Win32();
 
 	int getProcessorThreads_Win32();
 
-	std::string getArchitecture();
+	string getArchitecture();
 
-	std::string getProcessorName();
+	string getProcessorName();
 
 	int getProcessorCores();
 
 	int getProcessorThreads();
 
-	std::string getSocket();
+	string getSocket();
 
-	std::string architectureString(int a);
+	string architectureString(int a);
 
 };

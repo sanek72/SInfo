@@ -16,7 +16,7 @@ void BIOS::receiving(array<T, N>& v, string _class_name) {
 
 	size_t len = v.size();
 
-	std::vector< string > properties;
+	vector< string > properties;
 
 	for (size_t i = 0; i < len; ++i) {
 		properties.push_back(v[i]);
@@ -38,67 +38,12 @@ void BIOS::receiving(array<T, N>& v, string _class_name) {
 
 		}
 
-			cout << "\t" << getManufacturer() << endl;
-			cout << "\t" << getName() << endl;
-			cout << "\t" << getVersion() << endl;
-			cout << "\t" << getSerialNumber() << endl << endl;
-
-
-	}
-	else {
+	} else {
 		//erore
 		cout << typeid(BIOS).name() << ". Error getting information." << endl;
 	}
 
 }
-
-
-//template< typename T, std::size_t N >
-//void BIOS::receiving(std::array<T, N>& v, std::string _class_name) {
-//	size_t len = v.size();
-//
-//	std::vector< std::string > properties;
-//
-//	for (size_t i = 0; i < len; ++i) {
-//		properties.push_back(v[i]);
-//	}
-//
-//	std::vector< std::string > value;
-//
-//	if (InitializesCOM(OBJECTPATH, WQL + _class_name, properties).Initialize(value)) {
-//
-//		//work
-//		for (size_t i = 0; i < properties.size(); ++i) {
-//
-//			//std::cout << "Class[" + _class_name + "] propertie[" + properties[i] + "] = " + value[i] << std::endl;
-//
-//			if (properties[i] == "Manufacturer") {
-//				setManufacturer(value[i]);
-//			}
-//
-//			if (properties[i] == "Name") {
-//				setName(value[i]);
-//			}
-//
-//			if (properties[i] == "SerialNumber") {
-//				setSerialNumber(value[i]);
-//
-//			}
-//
-//			if (properties[i] == "Version") {
-//				setVersion(value[i]);
-//			}
-//
-//		}
-//
-//		}else {
-//		//erore
-//		std::cout << typeid(BIOS).name() << ". Error getting information." << std::endl;
-//	
-//
-//	}
-//
-//	}
 
 void BIOS::setManufacturer(string _manufacturer){
 	manufacturer = _manufacturer;

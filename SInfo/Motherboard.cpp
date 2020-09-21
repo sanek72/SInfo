@@ -1,91 +1,70 @@
 #include "Motherboard.h"
 
-Motherboard::Motherboard(){
+Motherboard::Motherboard(bool WMIRequest) {
 
-	static const int MotherboardDevice_size = 22;
-	static const std::string motherboardDevice_class = "Win32_MotherboardDevice";
-	std::array<std::string, MotherboardDevice_size> MotherboardDevice = { "Availability" , "Caption", "ConfigManagerErrorCode", "ConfigManagerUserConfig", "CreationClassName",
-	   "Description", "DeviceID", "ErrorCleared", "ErrorDescription", "InstallDate", "LastErrorCode", "Name", "PNPDeviceID", "PowerManagementCapabilities", "PowerManagementSupported",
-	   "PrimaryBusType", "RevisionNumber", "SecondaryBusType", "Status", "StatusInfo", "SystemCreationClassName", "SystemName" };
+	if (WMIRequest) {
+		static const int BASEBOARDE_SIZE = 3;
+		static const string BASEBOARDE_CLASS = "Win32_BaseBoard";
+		array<string, BASEBOARDE_SIZE> BaseBoard = { "Manufacturer", "Product", "SerialNumber" };
+		receiving(BaseBoard, BASEBOARDE_CLASS);
+	}
 
-	static const int BaseBoarde_size = 29;
-	static const std::string baseBoard_class = "Win32_BaseBoard";
-	std::array<std::string, BaseBoarde_size> BaseBoard = { "Caption", "ConfigOptions", "CreationClassName", "Depth", "Description", "Height", "HostingBoard", "HotSwappable", "InstallDate",
-	   "Manufacturer", "Model", "Name", "OtherIdentifyingInfo", "PartNumber", "PoweredOn", "Product", "Removable", "Replaceabl", "RequirementsDescription",
-	   "RequiresDaughterBoard", "SerialNumber", "SKU", "SlotLayout", "SpecialRequirements", "Status", "Tag", "Version", "Weight", "Width" };
-
-		receiving(BaseBoard, baseBoard_class);
-		//receiving(MotherboardDevice, motherboardDevice_class);
 }
 
-template< typename T, std::size_t N >
-void Motherboard::receiving( std::array<T, N> &v, std::string _class_name)  {
+template< typename T, size_t N >
+void Motherboard::receiving(array<T, N>& v, string _class_name) {
 
 	size_t len = v.size();
 
-	std::vector< std::string > properties;
+	vector< string > properties;
 
 	for (size_t i = 0; i < len; ++i) {
 		properties.push_back(v[i]);
 	}
 
-	std::vector< std::string > value;
+	DataWork dataWork;
 
-	if (InitializesCOM(ObjectPath, WQL + _class_name, properties).Initialize(value)) {
+	InitializesCOM initCom;
 
-			//work
-			for (size_t i = 0; i < properties.size(); ++i) {
+	if (initCom.Initialize(OBJECTPATH, WQL + _class_name, properties, dataWork)) {
 
-				//std::cout << "Clas[" + _class_name + "] propertie[" + properties[i] + "] = " + value[i]<< std::endl;
+		//work
+		for (int i = 1; i <= dataWork.data_count; ++i) {
 
-				if (properties[i] == "Manufacturer") {
+			setManufacturer(dataWork.getDataString("Manufacturer" + to_string(i)));
+			setProduct(dataWork.getDataString("Product" + to_string(i)));
+			setSerialNumber(dataWork.getDataString("SerialNumber" + to_string(i)));
 
-					setManufacturer(value[i]);
-
-				}
-
-				if (properties[i] == "Product") {
-
-					setProduct(value[i]);
-
-				}
-
-				if (properties[i] == "SerialNumber") {
-
-					setSerialNumber(value[i]);
-
-				}
-			}
-
-		}else {
-			//erore
-			std::cout << typeid(Motherboard).name() << ". Error getting information." << std::endl;
 		}
+
+	} else {
+		//erore
+		cout << typeid(Motherboard).name() << ". Error getting information." << endl;
+	}
 
 }
 
-
-std::string Motherboard::getManufacturer() {
+string Motherboard::getManufacturer() {
 	return manufacturer;
 }
 
-void Motherboard::setManufacturer(std::string _manufacturer) {
+void Motherboard::setManufacturer(string _manufacturer) {
 	manufacturer = _manufacturer;
 }
 
-std::string Motherboard::getProduct() {
+string Motherboard::getProduct() {
 	return product;
 }
 
-void Motherboard::setProduct(std::string _product) {
+void Motherboard::setProduct(string _product) {
 	product = _product;
 }
 
-std::string Motherboard::getSerialNumber() {
+string Motherboard::getSerialNumber() {
 	return serialNumber;
 }
 
-void Motherboard::setSerialNumber(std::string _serialNumber) {
+void Motherboard::setSerialNumber(string _serialNumber) {
 	serialNumber = _serialNumber;
 }
 

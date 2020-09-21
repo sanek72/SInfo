@@ -5,41 +5,47 @@
 #include "InitializesCOM.h"
 #include <windows.h>
 #include <typeinfo>
+#include "DataWork.h"
+
+using namespace std;
 
 class RAM{
 
-	const std::string ObjectPath = "root\\cimv2";
+public:
 
-	const std::string WQL = "SELECT * FROM ";
+	struct MODUL {
 
-	template< typename T, std::size_t N >
-	void receiving(std::array<T, N>& v, std::string _class_name, bool m);
-
-	int modulesCount = 0;
-
-	struct MODUL{
-
-		std::string name;
-		std::string bank;
+		string name;
+		string bank;
 		long long ramSize = 0;
-		int speed = 0;
+		long speed = 0;
 
 	};
 
+private:
 
-	void setModulesCount();
+	const string OBJECTPATH = "root\\cimv2";
 
-	std::vector< MODUL > m_buf;
+	const string WQL = "SELECT * FROM ";
+
+	template< typename T, size_t N >
+	void receiving(array<T, N>& v, string _class_name);
+
+	int modulesCount = 0;
+
+	void setModulesCount(int _modulesCount);
+
+	vector< MODUL > modul_bufer;
 
 public:
 
-	RAM();
+	RAM(bool WMIRequest);
 
-	std::string getMemoryRAMsize_Win32();
+	long long getMemorySize_Win32();
 
 	int getModulesCount();
 
-	std::vector< MODUL > getModulesRAM();	
+	vector< MODUL > getModulesRAM();	
 
 };
 

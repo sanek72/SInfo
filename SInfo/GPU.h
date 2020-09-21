@@ -12,14 +12,7 @@ using namespace std;
 
 class GPU {
 
-private:
-
-	const string OBJECTPATH = "root\\cimv2";
-
-	const string WQL = "SELECT * FROM ";
-
-	template< typename T, size_t N >
-	void receiving(array<T, N>& v, string _class_name);
+public:
 
 	struct ADAPTER {
 
@@ -36,7 +29,21 @@ private:
 		long long ramSize = 0;// max 4095mb,  AdapterRAM type = uint32, =)
 	};
 
+
+private:
+
+	const string OBJECTPATH = "root\\cimv2";
+
+	const string WQL = "SELECT * FROM ";
+
+	template< typename T, size_t N >
+	void receiving(array<T, N>& v, string _class_name);
+
+	int adapterCount = 0;
+
 	vector< ADAPTER > adapter_bufer;
+
+	void setAdapterCount(int _adapterCount);
 
 public:
 
@@ -45,5 +52,7 @@ public:
 	string getGPUName_Win32();
 
 	vector< ADAPTER > getADAPTERS();
+
+	int getAdapteCount();
 	
 };

@@ -5,16 +5,18 @@
 #include <iostream>
 #include <map>
 
+using namespace std;
+
 class DataWork{
 
 private:
 
 	struct DATA {
 
-		std::map < std::string, std::string> bstr;
-		std::map < std::string, VARIANT_BOOL> boolean;
-		std::map < std::string, INT> integer;
-		std::map < std::string, UINT> longer;
+		map < string, string> bstr;
+		map < string, VARIANT_BOOL> boolean;
+		map < string, INT> integer;
+		map < string, UINT> longer;
 
 	};
 
@@ -24,14 +26,18 @@ public:
 
 	int data_count = 0;
 
-	void setDataBSTR(std::string _key, BSTR _bstr);
+	void setDataBSTR(string _key, BSTR _bstr);
 
-	void setDataLong(std::string _key, UINT _uint);
+	void setDataLong(string _key, UINT _uint);
 
-	std::string getDataString(std::string _key);
+	string getDataString(string _key);
 
-	long long getDataLong(std::string _key);
+	long long getDataLongLong(string _key);
 
-	BSTR convertStringToBSTR(std::string _value);
+	long getDataLong(string _key);
+
+	long long uint64ToLongLong(string _value);
+
+	BSTR convertStringToBSTR(string _value);
 };
 

@@ -1,80 +1,77 @@
 #pragma once
 
+#pragma comment(lib, "user32.lib")
+#pragma comment(lib, "Secur32.lib")
+
 #include <windows.h>
 #define SECURITY_WIN32
 #include <Security.h>
 #include <secext.h>
-
-
 #include <iostream>
 #include <typeinfo>
 #include "InitializesCOM.h"
 #include <array>
+#include "DataWork.h"
 
+using namespace std;
 
 class OS{
 
 private:
 
-	const std::string ObjectPath = "root\\cimv2";
+	const string OBJECTPATH = "root\\cimv2";
 
-	const std::string WQL = "SELECT * FROM ";
+	const string WQL = "SELECT * FROM ";
 
-	std::string OSName;
+	string OSName;
 
-	std::string сomputerName;
+	string сomputerName;
 
-	std::string buildNumber;
+	string buildNumber;
 
-	int freePhysicalMemory = 0;
+	string OSArchitecture;
 
-	std::string OSArchitecture;
+	string localDateTime;
 
-	std::string localDateTime;
+	string registeredUser;
 
-	std::string registeredUser;
+	template< typename T, size_t N >
+	void receiving(array<T, N>& v, string _class_name);
 
-	template< typename T, std::size_t N >
-	void receiving(std::array<T, N>& v, std::string _class_name);
+	void setOSName(string _OSName);
 
-	void setOSName(std::string _OSName);
+	void setComputerName(string _сomputerName);
 
-	void setComputerName(std::string _сomputerName);
+	void setBuildNumber(string _buildNumber);
 
-	void setBuildNumber(std::string _buildNumber);
+	void setOSArchitecture(string _OSArchitecture);
 
-	void setOSArchitecture(std::string _OSArchitecture);
+	void setLocalDateTime(string _localDateTime);
 
-	//void setFreePhysicalMemory(std::string _freePhysicalMemory);
-
-	void setLocalDateTime(std::string _localDateTime);
-
-	void setRegisteredUser(std::string _registeredUser);
+	void setRegisteredUser(string _registeredUser);
 
 public:
 
-	OS();
+	OS(bool WMIRequest);
 
-	std::string getComputerName_Win32();
+	string getComputerName_Win32();
 
-	std::string getOSName_Win32();
+	string getOSName_Win32();
 
-	std::string getOSName();
+	string getOSName();
 
-	std::string getComputerName();
+	string getComputerName();
 
-	std::string getBuildNumber();
+	string getBuildNumber();
 
-	//int getFreePhysicalMemory();
+	string getOSArchitecture();
 
-	std::string getOSArchitecture();
+	string getLocalDateTime();
 
-	std::string getLocalDateTime();
+	string getRegisteredUser();
 
-	std::string getRegisteredUser();
+	string getUserNameEx();
 
-	std::string getUserNameEx();
-
-	std::string getUserName();
+	string getUserName();
 };
 
