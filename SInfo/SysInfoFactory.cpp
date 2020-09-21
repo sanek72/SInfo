@@ -8,6 +8,7 @@ SysInfoFactory::SysInfoFactory(){
 void SysInfoFactory::gathered(){
 
 	GPU gpu = GPU(true);
+	BIOS bios = BIOS(true);
 
 }
 

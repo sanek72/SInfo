@@ -14,7 +14,7 @@ class GPU {
 
 private:
 
-	const string ObjectPath = "root\\cimv2";
+	const string OBJECTPATH = "root\\cimv2";
 
 	const string WQL = "SELECT * FROM ";
 

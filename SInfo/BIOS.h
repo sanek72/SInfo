@@ -6,46 +6,49 @@
 #include <iostream>
 #include <typeinfo>
 #include "InitializesCOM.h"
+#include "DataWork.h"
+
+using namespace std;
 
 class BIOS{
 
 private:
 
-	const std::string OBJECTPATH = "root\\cimv2";
+	string OBJECTPATH = "root\\cimv2";
 
-	const std::string WQL = "SELECT * FROM ";
+	string WQL = "SELECT * FROM ";
 
-	template< typename T, std::size_t N >
-	void receiving(std::array<T, N>& v, std::string _class_name);
+	template< typename T, size_t N >
+	void receiving(array<T, N>& v, string _class_name);
 
-	void setManufacturer(std::string _manufacturer);
+	void setManufacturer(string _manufacturer);
 
-	void setName(std::string _name);
+	void setName(string _name);
 
-	void setVersion(std::string _version);
+	void setVersion(string _version);
 
-	void setSerialNumber(std::string _serialNumber);
+	void setSerialNumber(string _serialNumber);
 
-	std::string manufacturer;
+	string manufacturer;
 
-	std::string name;
+	string name;
 
-	std::string version;
+	string version;
 
-	std::string serialNumber;
+	string serialNumber;
 
 
 public:
 
-	BIOS();
+	BIOS(bool WMIRequest);
 
-	std::string getManufacturer();
+	string getManufacturer();
 
-	std::string getName();
+	string getName();
 
-	std::string getVersion();
+	string getVersion();
 
-	std::string getSerialNumber();
+	string getSerialNumber();
 
 };
 

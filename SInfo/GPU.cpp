@@ -1,13 +1,12 @@
 #include "GPU.h"
 
 GPU::GPU(bool WMIRequest) {
-	cout << "\t" << "GPU::GPU(bool WMIRequest)"<< endl;
-	if (WMIRequest) {
-		static const string videoController_class = "Win32_VideoController";
-		static const int videoController_size = 6;
-		array<string, videoController_size> videoController = { "Name", "DriverDate", "DriverVersion", "AdapterCompatibility", "VideoProcessor", "AdapterRAM" };
 
-		receiving(videoController, videoController_class);
+	if (WMIRequest) {
+		static const string VIDEOCONTROLLER_CLASS = "Win32_VideoController";	
+		static const int VIDEOCONTROLLER_SIZE = 6;
+		array<string, VIDEOCONTROLLER_SIZE> videoController = { "Name", "DriverDate", "DriverVersion", "AdapterCompatibility", "VideoProcessor", "AdapterRAM" };
+		receiving(videoController, VIDEOCONTROLLER_CLASS);
 	}
 
 }
@@ -26,7 +25,7 @@ void GPU::receiving(array<T, N>& v, string _class_name) {
 		
 		InitializesCOM initCom;
 
-		if (initCom.Initialize(ObjectPath, WQL + _class_name, properties, dataWork)) {
+		if (initCom.Initialize(OBJECTPATH, WQL + _class_name, properties, dataWork)) {
 
 			//work
 			for (int i = 1; i <= dataWork.data_count; ++i) {
@@ -44,11 +43,11 @@ void GPU::receiving(array<T, N>& v, string _class_name) {
 
 			}
 
-			for (ADAPTER a : adapter_bufer) {
-				cout << "\t" << a.videoCardName << endl;
-				cout << "\t" << a.adapterCompatibility << endl;
-				cout << "\t" << a.ramSize / 1024 / 1024 << endl << endl;
-			}
+			//for (ADAPTER a : adapter_bufer) {
+			//	cout << "\t" << a.videoCardName << endl;
+			//	cout << "\t" << a.adapterCompatibility << endl;
+			//	cout << "\t" << a.ramSize / 1024 / 1024 << endl << endl;
+			//}
 
 		} else {
 			//erore
