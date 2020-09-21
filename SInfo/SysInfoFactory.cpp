@@ -1,26 +1,14 @@
 #include "SysInfoFactory.h"
 
 
-//OS SysInfoFactory::getOSInformation(){
-//	return os;
-//}
-
-//CPU SysInfoFactory::getCPUInformation(){
-//	return cpu;
-//}
-
-GPU SysInfoFactory::getGPUInformation(){
-	return gpu;
+SysInfoFactory::SysInfoFactory(){
+	gathered();
 }
-//
-//Motherboard SysInfoFactory::getMotherboardInformation(){
-//	return board;
-//}
-//
-//RAM SysInfoFactory::getRAMInformation(){
-//	return ram;
-//}
-//
-//BIOS SysInfoFactory::getBIOSInformation(){
-//	return bios;
-//}
+
+void SysInfoFactory::gathered(){
+
+	GPU gpu = GPU(true);
+
+}
+
+

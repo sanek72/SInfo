@@ -5,10 +5,10 @@
 #include <cstring>
 #include <iostream>
 #include <string>
-#include <comutil.h>
+#include <comutil.h>//del
 #include <vector>
 #include "DataWork.h"
-#include "Data.h"
+
 
 #pragma comment( lib, "Wbemuuid.lib" )
 
@@ -43,7 +43,7 @@ public:
 
 	bool Initialize(std::vector< std::string > &_value);
 
-	bool Initialize(std::string objectPath, std::string wql, std::vector< std::string > _properties, Data *_data);
+	bool Initialize(std::string objectPath, std::string wql, std::vector< std::string > _properties, DataWork &_dataWork);
 
 };
 

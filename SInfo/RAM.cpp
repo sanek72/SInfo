@@ -20,7 +20,7 @@ RAM::RAM(){
     std::array<std::string, physicalMemoryLocation_size> physicalMemoryLocation = { "LocationWithinContainer", "PartComponent", "GroupComponent" };
 
         // true - будем собирать информацию для каждого модуля RAM
-        receiving(physicalMemory, physicalMemory_class, true);
+        //receiving(physicalMemory, physicalMemory_class, true);
         //receiving(physicalMemoryArray, physicalMemoryArray_class, false);
         //receiving(physicalMemoryLocation, physicalMemoryLocation_class, false);
 

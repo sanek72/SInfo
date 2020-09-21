@@ -2,85 +2,48 @@
 #include <string>
 #include <windows.h>
 #include <iostream>
-#include <sstream>
 #include <array>
 #include <vector>
 #include <typeinfo>
 #include "InitializesCOM.h"
 #include "DataWork.h"
 
+using namespace std;
+
 class GPU {
 
 private:
 
-	const std::string ObjectPath = "root\\cimv2";
+	const string ObjectPath = "root\\cimv2";
 
-	const std::string WQL = "SELECT * FROM ";
+	const string WQL = "SELECT * FROM ";
 
-	template< typename T, std::size_t N >
-	void receiving(std::array<T, N>& v, std::string _class_name);
+	template< typename T, size_t N >
+	void receiving(array<T, N>& v, string _class_name);
 
-	//void setVideoCardName(std::string _videoCardName);
+	struct ADAPTER {
 
-	//void setDriverVersion(std::string _driverVersion);
+		string videoCardName;
 
-	//void setDriverDate(std::string _driverDate);
+		string driverVersion;
 
-	//void setAdapterCompatibility(std::string _adapterCompatibility);
+		string driverDate;
 
-	//void setVideoProcessor(std::string _videoProcessor);
+		string adapterCompatibility;
 
-	//void setInstalledDisplayDrivers(std::string _displayDrivers);
+		string videoProcessor;
 
-	//long long ramSize = 0;
-
-	//void setRamSize(std::string _ramSize);
-
-	int adapter_count = 0;
-
-	void setAdapterCount();
-
-	struct ADAPTER {//del
-
-		std::string videoCardName;
-
-		std::string driverVersion;
-
-		std::string driverDate;
-
-		std::string adapterCompatibility;
-
-		std::string videoProcessor;
-
-		std::string installedDisplayDrivers;
-
-		long long ramSize = 0;
+		long long ramSize = 0;// max 4095mb,  AdapterRAM type = uint32, =)
 	};
 
-	std::vector< ADAPTER > a_buf;
+	vector< ADAPTER > adapter_bufer;
 
 public:
 
-	GPU();
+	GPU(bool WMIRequest);
 
-	std::string getGPUName_Win32();
+	string getGPUName_Win32();
 
-	//std::string getVideoCardName();
-
-	//std::string getDriverVersion();
-
-	//std::string getDriverDate();
-
-	//std::string getAdapterCompatibility();
-
-	//std::string getVideoProcessor();
-
-	//std::vector< std::string > getInstalledDisplayDrivers();
-
-	//long long getRamSize();
-
-	int getAdapterCount();
-
-	std::vector< ADAPTER > getADAPTERS();
+	vector< ADAPTER > getADAPTERS();
 	
 };

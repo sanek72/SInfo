@@ -48,9 +48,6 @@
     <ClCompile Include="DataWork.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Data.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RAM.h">
@@ -81,9 +78,6 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="DataWork.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Data.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

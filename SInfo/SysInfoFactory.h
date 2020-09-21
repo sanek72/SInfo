@@ -12,31 +12,18 @@
 #include "BIOS.h"
 
 
-
 class SysInfoFactory {
 
 private:
 
-	//Motherboard board;
-	//OS os;
-	//CPU cpu;
-	GPU gpu;
-	//RAM ram;
-	//BIOS bios;
-
+	
 public:
 
-	//OS getOSInformation();
+	SysInfoFactory();
 
-	//CPU getCPUInformation();
+	void gathered();
 
-	GPU getGPUInformation();
 
-	//Motherboard getMotherboardInformation();
-
-	//RAM getRAMInformation();
-
-	//BIOS getBIOSInformation();
 
 };
 

@@ -5,12 +5,15 @@
 #include "Utils.h"
 
 using namespace std;
-SysInfoFactory info;
-Utils util;
+
 
 int main(){
 
     setlocale(LC_CTYPE, "Russian");
+
+    SysInfoFactory info;
+
+    //Utils util;
 
     //cout << "  Hello " + info.getOSInformation().getUserName() << endl;
 

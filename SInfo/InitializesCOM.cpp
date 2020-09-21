@@ -128,17 +128,17 @@ InitializesCOM::InitializesCOM(std::string _objectPath, std::string _wql, std::v
                     VariantClear(&v);
                     break;
 
-                case VBARRAY_TYPE + VBSTRING_TYPE:
+                //case VBARRAY_TYPE + VBSTRING_TYPE:
 
-                    _value.push_back(getArrayValues_(hresult, v.parray, VBSTRING_TYPE));
-                    VariantClear(&v);
-                    break;
+                //    _value.push_back(getArrayValues_(hresult, v.parray, VBSTRING_TYPE));
+                //    VariantClear(&v);
+                //    break;
 
-                case VBARRAY_TYPE + VBLONG_TYPE:
+                //case VBARRAY_TYPE + VBLONG_TYPE:
 
-                    _value.push_back(getArrayValues_(hresult, v.parray, VBLONG_TYPE));
-                    VariantClear(&v);
-                    break;
+                //    _value.push_back(getArrayValues_(hresult, v.parray, VBLONG_TYPE));
+                //    VariantClear(&v);
+                //    break;
 
                 case VBBOOLEAN_TYPE:
 
@@ -192,7 +192,7 @@ InitializesCOM::InitializesCOM(std::string _objectPath, std::string _wql, std::v
 
 }
 
-bool InitializesCOM::Initialize(std::string _objectPath, std::string _wql, std::vector<std::string> _properties, Data *_data){
+bool InitializesCOM::Initialize(std::string _objectPath, std::string _wql, std::vector<std::string> _properties, DataWork &_dataWork){
 
     if (_properties.size() == 0) {
         return false;
@@ -271,79 +271,60 @@ bool InitializesCOM::Initialize(std::string _objectPath, std::string _wql, std::
         }
         BSTR temp;
         VARIANT v;
-
+        
         VariantInit(&v);
 
         size_t len = _properties.size();
 
-        for (size_t i = 0; i < len; ++i) {
+        _dataWork.data_count++;
 
-            //std::cout << _properties[i] << " " << std::endl;
+        for (std::string p : _properties) {
 
-            temp = _com_util::ConvertStringToBSTR(_properties[i].c_str());
+            temp = _dataWork.convertStringToBSTR(p);
 
             hresult = pObject->Get(temp, NULL, &v, NULL, NULL);
 
-            if (FAILED(hresult)) {
-
-               // std::cout << _properties[i] << " " << std::endl;
-                VariantClear(&v);
-
-            }
-            else if (v.bstrVal == NULL) {
-                //std::cout << _properties[i] << " " << std::endl;
-
-                VariantClear(&v);
-
-            }
-            else {
+            if(SUCCEEDED(hresult)){
 
                 int vType = v.vt;
 
-                DataWork dataWork;
-                //Data dd;
                 switch (vType) {
 
                 case VBSTRING_TYPE:
 
-                    dataWork.setDataBSTR(_properties[i], v.bstrVal, _data);
+                    _dataWork.setDataBSTR(p,  v.bstrVal);
                     VariantClear(&v);
                     
                     break;
-                case VBARRAY_TYPE + VBSTRING_TYPE:
+                //case VBARRAY_TYPE + VBSTRING_TYPE:
 
-   
-                    dataWork.setDataSAFEARRAY_string(hresult, _properties[i], v.parray, _data);
-                    VariantClear(&v);
-                    break;
+                //    VariantClear(&v);
+                //    break;
 
-                case VBARRAY_TYPE + VBLONG_TYPE:
+                //case VBARRAY_TYPE + VBLONG_TYPE:
 
 
-                    VariantClear(&v);
-                    break;
+                //    VariantClear(&v);
+                //    break;
 
                 case VBBOOLEAN_TYPE:
-
 
                     VariantClear(&v);
                     break;
 
                 case VBINTEGER_TYPE:
 
-
                     VariantClear(&v);
                     break;
 
                 case VBBYTE_TYPE:
-
 
                     VariantClear(&v);
                     break;
 
                 case VBLONG_TYPE:
 
-
+                    _dataWork.setDataLong(p, v.uintVal);
                     VariantClear(&v);
                     break;
 
@@ -354,7 +335,7 @@ bool InitializesCOM::Initialize(std::string _objectPath, std::string _wql, std::
                     break;
 
                 default:
-                    //std::cout << typeid(InitializesCOM).name() << "p ropertie[" + c.properties[i] + "] = " "The VARTYPE " + std::to_string(vType) + " is unknown." << std::endl;
+                    //std::cout << typeid(InitializesCOM).name() << "p ropertie[" + p + "] = " "The VARTYPE " + std::to_string(vType) + " is unknown." << std::endl;
 
                     VariantClear(&v);
                     break;
@@ -376,49 +357,49 @@ bool InitializesCOM::Initialize(std::string _objectPath, std::string _wql, std::
 
 }
 
-std::string InitializesCOM::getArrayValues_(HRESULT hr, SAFEARRAY* parray, int vType) {
-
-    std::string s;
-    BSTR* temp;
-    hr = SafeArrayAccessData(parray, (void**)&temp); 
-
-    if (SUCCEEDED(hr)){
-
-        long lowerBound, upperBound;  
-        SafeArrayGetLBound(parray, 1, &lowerBound);
-        SafeArrayGetUBound(parray, 1, &upperBound);
-
-        long cnt_elements = upperBound - lowerBound + 1;
-        BSTR v;
-
-        for (int i = 0; i < cnt_elements; ++i){  
-
-             v = temp[i];
-
-            if (vType == VBSTRING_TYPE) {
-
-                    s +=  _com_util::ConvertBSTRToString(v);
-                    s += "|";
-
-            }
-            else if (vType == VBLONG_TYPE) {
-
-                    s += std::to_string((UINT)v);// TODO: 
-                    s += "|";               
-
-            }
-
-
-        }
-
-        SafeArrayUnaccessData(parray);
- //       SafeArrayDestroy(parray);
-    } else {
-
-        s = " unavailable";
-
-    }
-    return s;
-}
+//std::string InitializesCOM::getArrayValues_(HRESULT hr, SAFEARRAY* parray, int vType) {
+//
+//    std::string s;
+//    BSTR* temp;
+//    hr = SafeArrayAccessData(parray, (void**)&temp); 
+//
+//    if (SUCCEEDED(hr)){
+//
+//        long lowerBound, upperBound;  
+//        SafeArrayGetLBound(parray, 1, &lowerBound);
+//        SafeArrayGetUBound(parray, 1, &upperBound);
+//
+//        long cnt_elements = upperBound - lowerBound + 1;
+//        BSTR v;
+//
+//        for (int i = 0; i < cnt_elements; ++i){  
+//
+//             v = temp[i];
+//
+//            if (vType == VBSTRING_TYPE) {
+//
+//                    s +=  _com_util::ConvertBSTRToString(v);
+//                    s += "|";
+//
+//            }
+//            else if (vType == VBLONG_TYPE) {
+//
+//                    s += std::to_string((UINT)v);// TODO: 
+//                    s += "|";               
+//
+//            }
+//
+//
+//        }
+//
+//        SafeArrayUnaccessData(parray);
+// //       SafeArrayDestroy(parray);
+//    } else {
+//
+//        s = " unavailable";
+//
+//    }
+//    return s;
+//}
 
 
