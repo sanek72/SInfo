@@ -9,6 +9,9 @@
 #include "GPU.h"
 #include "RAM.h"
 #include "BIOS.h"
+#include "DISKS.h"
+#include "Sound.h"
+#include "Network.h"
 
 using namespace std;
 

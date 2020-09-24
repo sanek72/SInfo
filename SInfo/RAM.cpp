@@ -4,10 +4,10 @@
 RAM::RAM(bool WMIRequest) {
 
     if (WMIRequest) {
-        static const int physicalMemory_size = 4;
-        static const string physicalMemory_class = "Win32_PhysicalMemory";
-        array<string, physicalMemory_size> physicalMemory = { "Name", "BankLabel", "Capacity", "Speed" };
-        receiving(physicalMemory, physicalMemory_class);
+        static const int PHYSICALMEMORY_SIZE = 4;
+        static const string PHYSICALMEMORY_CLASS = "Win32_PhysicalMemory";
+        array<string, PHYSICALMEMORY_SIZE> physicalMemory = { "Name", "BankLabel", "Capacity", "Speed" };
+        receiving(physicalMemory, PHYSICALMEMORY_CLASS);
     }
 
 }
@@ -51,7 +51,7 @@ void RAM::receiving(array<T, N>& v, string _class_name) {
 
 }
 
-long long RAM::getMemorySize_Win32() {
+long long RAM::getMemorySize_WinAPI() {
 
     long long s = 0;
     ULONGLONG memKb;

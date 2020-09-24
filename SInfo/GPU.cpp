@@ -53,7 +53,7 @@ void GPU::receiving(array<T, N>& v, string _class_name) {
 }
 
 
-string GPU::getGPUName_Win32() {
+string GPU::getGPUName_WinAPI() {
     DISPLAY_DEVICEA dd;
     dd.cb = sizeof(DISPLAY_DEVICEA);
     EnumDisplayDevicesA(NULL, 0, &dd, EDD_GET_DEVICE_INTERFACE_NAME);

@@ -1,34 +1,26 @@
 #pragma once
 #include <string>
-#include <windows.h>
-#include <iostream>
 #include <array>
 #include <vector>
+#include <iostream>
 #include <typeinfo>
 #include "InitializesCOM.h"
 #include "DataWork.h"
 
 using namespace std;
 
-class GPU {
+class Network{
 
 public:
 
 	struct ADAPTER {
 
-		string videoCardName;
+		string manufacturer;
+		string name;
+		string MACAddress;
+		bool netEnabled = false;
 
-		string driverVersion;
-
-		string driverDate;
-
-		string adapterCompatibility;
-
-		string videoProcessor;
-
-		long long ramSize = 0;// max 4095mb,  AdapterRAM type = uint32, =)
 	};
-
 
 private:
 
@@ -36,23 +28,25 @@ private:
 
 	const string WQL = "SELECT * FROM ";
 
+	const string FILTER_WQL = " WHERE PhysicalAdapter=TRUE";
+
 	template< typename T, size_t N >
 	void receiving(array<T, N>& v, string _class_name);
 
 	int adapterCount = 0;
 
-	vector< ADAPTER > adapter_bufer;
-
 	void setAdapterCount(int _adapterCount);
+
+	vector< ADAPTER > adapter_bufer;
 
 public:
 
-	GPU(bool WMIRequest);
+	Network(bool WMIRequest);
 
-	string getGPUName_WinAPI();
+	int getAdapterCount();
 
-	vector< ADAPTER > getADAPTERS();
+	vector< ADAPTER > getAdapters();
 
-	int getAdapteCount();
-	
 };
+
+

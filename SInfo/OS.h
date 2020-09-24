@@ -54,9 +54,9 @@ public:
 
 	OS(bool WMIRequest);
 
-	string getComputerName_Win32();
+	string getComputerName_WinAPI();
 
-	string getOSName_Win32();
+	string getOSName_WinAPI();
 
 	string getOSName();
 

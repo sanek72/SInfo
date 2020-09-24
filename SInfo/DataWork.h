@@ -14,7 +14,7 @@ private:
 	struct DATA {
 
 		map < string, string> bstr;
-		map < string, VARIANT_BOOL> boolean;
+		map < string, VARIANT_BOOL> vboolean;
 		map < string, INT> integer;
 		map < string, UINT> longer;
 
@@ -30,6 +30,10 @@ public:
 
 	void setDataLong(string _key, UINT _uint);
 
+	void setDataBoolean(string _key, VARIANT_BOOL _boolean);
+
+	bool getDataBoolean(string _key);
+
 	string getDataString(string _key);
 
 	long long getDataLongLong(string _key);
@@ -38,6 +42,8 @@ public:
 
 	long long uint64ToLongLong(string _value);
 
+
 	BSTR convertStringToBSTR(string _value);
+
 };
 

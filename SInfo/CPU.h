@@ -48,9 +48,9 @@ public:
 
 	string getProcessorName__cpuid();
 
-	int getProcessorCores_Win32();
+	int getProcessorCores_WinAPI();
 
-	int getProcessorThreads_Win32();
+	int getProcessorThreads_WinAPI();
 
 	string getArchitecture();
 

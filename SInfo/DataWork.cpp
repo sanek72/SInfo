@@ -20,6 +20,27 @@ void DataWork::setDataLong(string _key, UINT _uint) {
 
 }
 
+void DataWork::setDataBoolean(string _key, VARIANT_BOOL _boolean){
+
+	string key = _key + to_string(data_count);
+
+	data.vboolean.insert(make_pair(key, _boolean));
+
+}
+
+bool DataWork::getDataBoolean(string _key){
+
+	bool s = false;
+
+	if (data.vboolean.find(_key) != data.vboolean.end()) {
+
+		s = data.vboolean[_key];
+
+	}
+
+	return s;
+}
+
 string DataWork::getDataString(string _key) {
 
 	string s = "unavailable";

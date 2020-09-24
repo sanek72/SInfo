@@ -48,7 +48,7 @@ void OS::receiving(array<T, N>& v, string _class_name) {
 
 }
 
-string OS::getComputerName_Win32(){
+string OS::getComputerName_WinAPI(){
 
 	string s = "unavailable";
 	char buffer[256];
@@ -69,7 +69,7 @@ string OS::getComputerName_Win32(){
 
 }
 
-string OS::getOSName_Win32() {
+string OS::getOSName_WinAPI() {
 
 	string s = "unavailable";
 	OSVERSIONINFOEX info;
@@ -182,11 +182,9 @@ string OS::getUserNameEx() {
 	} else {
 
 		cout << typeid(OS).name() << ". Error getting information. " << GetLastError() << endl;
-		delete [] buffer;
 		return s;
 
 	}
-	delete [] buffer;
 	return s;
 
 }
@@ -201,15 +199,12 @@ string OS::getUserName() {
 		s = buffer;
 		return s;
 
-	}
-	else {
+	}else {
 
 		cout << typeid(OS).name() << ". Error getting information. " << GetLastError() << endl;
-		delete[] buffer;
 		return s;
 
 	}
-	delete[] buffer;
 	return s;
 
 }

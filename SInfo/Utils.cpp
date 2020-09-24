@@ -23,3 +23,20 @@ string Utils::getCIM_DATETIME(string value) {
 
 	return s;
 }
+
+wstring Utils::s2ws(const string& str){
+
+	using convert_typeX = codecvt_utf8_utf16<wchar_t>;
+	wstring_convert<convert_typeX, wchar_t> converter;
+
+	return converter.from_bytes(str);
+}
+
+string Utils::ws2s(const wstring& wstr){
+
+	using convert_typeX = codecvt_utf8_utf16<wchar_t>;
+	wstring_convert<convert_typeX, wchar_t> converter;
+
+	return converter.to_bytes(wstr);
+}
+

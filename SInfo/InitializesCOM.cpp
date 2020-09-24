@@ -93,11 +93,11 @@ bool InitializesCOM::Initialize(string _objectPath, string _wql, vector<string> 
             temp = _dataWork.convertStringToBSTR(p);
 
             hresult = pObject->Get(temp, NULL, &v, NULL, NULL);
-
+            
             if(SUCCEEDED(hresult)){
 
                 int vType = v.vt;
-                
+
                 switch (vType) {
 
                 case VBSTRING_TYPE:
@@ -117,7 +117,7 @@ bool InitializesCOM::Initialize(string _objectPath, string _wql, vector<string> 
                 //    break;
 
                 case VBBOOLEAN_TYPE:
-
+                    _dataWork.setDataBoolean(p, v.boolVal);
                     VariantClear(&v);
                     break;
 
@@ -134,6 +134,7 @@ bool InitializesCOM::Initialize(string _objectPath, string _wql, vector<string> 
                 case VBLONG_TYPE:
                       
                     _dataWork.setDataLong(p, v.uintVal);
+
                     VariantClear(&v);
                     break;
 

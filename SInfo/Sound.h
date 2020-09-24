@@ -1,24 +1,23 @@
 #pragma once
+
 #include <string>
 #include <array>
 #include <vector>
-#include "InitializesCOM.h"
-#include <windows.h>
+#include <iostream>
 #include <typeinfo>
+#include "InitializesCOM.h"
 #include "DataWork.h"
 
 using namespace std;
 
-class RAM{
+class Sound{
 
 public:
 
-	struct MODUL {
+	struct DEVICE {
 
+		string manufacturer;
 		string name;
-		string bank;
-		long long ramSize = 0;
-		long speed = 0;
 
 	};
 
@@ -31,21 +30,19 @@ private:
 	template< typename T, size_t N >
 	void receiving(array<T, N>& v, string _class_name);
 
-	int modulesCount = 0;
+	int deviceCount = 0;
 
-	void setModulesCount(int _modulesCount);
+	void setDeviceCount(int _deviceCount);
 
-	vector< MODUL > modul_bufer;
+	vector< DEVICE > device_bufer;
 
 public:
 
-	RAM(bool WMIRequest);
+	Sound(bool WMIRequest);
 
-	long long getMemorySize_WinAPI();
+	int getDeviceCount();
 
-	int getModulesCount();
-
-	vector< MODUL > getModulesRAM();	
+	vector< DEVICE > getDevice();
 
 };
 

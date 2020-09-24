@@ -148,12 +148,15 @@
     <ClCompile Include="BIOS.cpp" />
     <ClCompile Include="CPU.cpp" />
     <ClCompile Include="DataWork.cpp" />
+    <ClCompile Include="DISKS.cpp" />
     <ClCompile Include="GPU.cpp" />
     <ClCompile Include="InitializesCOM.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Motherboard.cpp" />
+    <ClCompile Include="Network.cpp" />
     <ClCompile Include="OS.cpp" />
     <ClCompile Include="RAM.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SysInfoFactory.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
@@ -161,11 +164,14 @@
     <ClInclude Include="BIOS.h" />
     <ClInclude Include="CPU.h" />
     <ClInclude Include="DataWork.h" />
+    <ClInclude Include="DISKS.h" />
     <ClInclude Include="GPU.h" />
     <ClInclude Include="InitializesCOM.h" />
     <ClInclude Include="Motherboard.h" />
+    <ClInclude Include="Network.h" />
     <ClInclude Include="OS.h" />
     <ClInclude Include="RAM.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="SysInfoFactory.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>

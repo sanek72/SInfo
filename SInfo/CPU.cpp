@@ -76,7 +76,7 @@ string CPU::getProcessorName__cpuid() {
     return cpu;
 }
 
-int CPU::getProcessorCores_Win32() {
+int CPU::getProcessorCores_WinAPI() {
     //https://docs.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-system_logical_processor_information
     DWORD logicalProcessorCount = 0, i, len;
     DWORD dLen = 0x100 * sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION);
@@ -98,7 +98,7 @@ int CPU::getProcessorCores_Win32() {
 
 }
 
-int CPU::getProcessorThreads_Win32() {
+int CPU::getProcessorThreads_WinAPI() {
 
     SYSTEM_INFO s;
     GetSystemInfo(&s);
