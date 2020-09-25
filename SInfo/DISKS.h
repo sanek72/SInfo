@@ -32,7 +32,7 @@ public:
 		long long size = 0;
 		long long free_size = 0;
 		string fileSystem;
-		long type;
+		long type = 0;
 
 	};
 
